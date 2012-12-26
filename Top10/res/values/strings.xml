@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, FormGenel!</string>
+    <string name="app_name">Top 10</string>
+	<string name="active">Active</string>
+	<string name="passive">Passive</string>
+	<string name="play">Oynat</string>
+	<string name="about">Hakkında</string>
+	<string name="refresh">Yenile</string>
+	<string name="loading">Yükleniyor...</string>
+	<string name="ok">Tamam</string>
+	<string name="unable_to_get_list">Şarkı listesi alınamıyor. Internet bağlantısında veya kralfm.com.tr de bir sıkıntı olabilir.</string>
+	<string name="problem_in_song">Bu şarkının bilgilerinde bir problem var. Şarkı listesini yenilemek çözüm olabilir.</string>
+	<string name="info">Uygulama listedeki şarkıları tamponlayarak çalar. İnternet bağlantınız yok ise veya yavaş ise problem yaşayabilirsiniz. </string>
+	<string name="info2">Listeler ilgili web sitelerinden alınmaktadır. Web sitelerinin içeriği değişirse uygulama çalışmayabilir.</string>
+	<string name="info3">Not-1: Liste genellikle haftalık güncelleniyor. Bazen web sitelerinde şarkıların mp3\'ünü bulunmuyor. Haliyle o mp3 de çalınamıyor.</string>
+	<string name="info4">Not-2: Uygulama kullanılırsa geri bildirimlere göre hataları düzeltir, yeni özellikler eklemeye çalışırız.</string>
+</resources>

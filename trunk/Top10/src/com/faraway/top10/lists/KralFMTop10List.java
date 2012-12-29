@@ -38,54 +38,6 @@ public class KralFMTop10List extends AbstractMusicList {
 		super(context);
 	}
 
-	/**
-	 * Bu method sarki listesini internetten cekip cache dosyasina yazar.
-	 * AbstractMusicList'deki abstract method olan refreshSongList burada kodlanmali.
-	 * @return Sarki listesini ArrayList<Song> tipinde dondurur.
-	 */
-	public ArrayList<Song> refreshSongList() 
-	{
-		try {
-			URL url = new URL(URL);
-			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-			urlConnection.setReadTimeout(10000);
-			urlConnection.setConnectTimeout(15000);
-			urlConnection.setRequestMethod("GET");
-			urlConnection.setDoInput(true);			
-			urlConnection.connect();
-
-			InputStream in = urlConnection.getInputStream(); //getAssets().open("kralfmtop10.htm");
-
-			BufferedReader reader = new BufferedReader(new InputStreamReader(in,Charset.forName("ISO-8859-9")));
-
-			String content = new String();
-			String line;
-			while ((line = reader.readLine()) != null){
-				content = content.concat(line);
-			}
-			//Indirilen html dosyasi parse edilerek icindeki sarkilar bulunuyor.
-			songList = parse(content);
-			in.close();
-			
-			writeToFile(songList);
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return songList;
-	}
-	
-	private void writeToFile(Object object) throws IOException {
-		//Sarkilar serialization yontemi ile dosyaya yaziliyor
-		FileOutputStream fileOutputStream;
-		fileOutputStream = context.openFileOutput(getCacheFileName(), Context.MODE_PRIVATE);
-		ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream);
-		outputStream.writeObject(object);
-		outputStream.close();
-	}
-
 
 	@Override
 	public String getCacheFileName() {
@@ -122,8 +74,8 @@ public class KralFMTop10List extends AbstractMusicList {
 				String mixedData = name.html();
 				//StringEscapeUtils.unescapeHtml fonksiyonu turkce karakter problemini cozmek icin kullanildi.
 				//Her zaman gerekmeyebilir. 
-				song.singer = StringEscapeUtils.unescapeHtml(mixedData.substring(0, mixedData.indexOf("<br />")));
-				song.name = StringEscapeUtils.unescapeHtml(mixedData.substring(mixedData.indexOf("<b>")+"<b>".length(), mixedData.indexOf("</b>")));
+				song.singer = StringEscapeUtils.unescapeHtml(mixedData.substring(0, mixedData.indexOf("<br />"))).toUpperCase();
+				song.name = StringEscapeUtils.unescapeHtml(mixedData.substring(mixedData.indexOf("<b>")+"<b>".length(), mixedData.indexOf("</b>"))).toUpperCase();
 				song.mp3Url = url;
 
 				songList.add(song);
@@ -139,6 +91,11 @@ public class KralFMTop10List extends AbstractMusicList {
 	@Override
 	public String getMusicListName() {
 		return LIST_NAME;
+	}
+
+	@Override
+	public String getURL() {
+		return URL;
 	}
 
 }

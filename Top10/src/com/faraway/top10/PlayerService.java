@@ -16,6 +16,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import com.faraway.top10.lists.KralFMTop10List;
+import com.faraway.top10.lists.PowerHitsTop10;
 import com.faraway.top10.types.AbstractMusicList;
 import com.faraway.top10.types.Song;
 
@@ -61,7 +62,13 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 	@Override
 	public void onCreate() {		
 		musicLists.add(new KralFMTop10List(getApplicationContext()));
-		musicLists.add(new KralFMTop10List(getApplicationContext()));
+//		new Thread() {
+//			public void run() {
+//				new PowerHitsTop10(getApplicationContext()).refreshSongList();
+//			};
+//			
+//		}.start();
+		musicLists.add(new PowerHitsTop10(getApplicationContext()));
 		super.onCreate();
 	}
 	

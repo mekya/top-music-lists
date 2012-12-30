@@ -64,12 +64,6 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 	@Override
 	public void onCreate() {		
 		musicLists.add(new KralFMTop10List(getApplicationContext()));
-//		new Thread() {
-//			public void run() {
-//				new PowerHitsTop10(getApplicationContext()).refreshSongList();
-//			};
-//			
-//		}.start();
 		musicLists.add(new PowerHitsTop10(getApplicationContext()));
 		super.onCreate();
 	}

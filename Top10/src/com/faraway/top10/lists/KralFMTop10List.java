@@ -9,8 +9,10 @@ import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jsoup.Jsoup;
@@ -74,9 +76,12 @@ public class KralFMTop10List extends AbstractMusicList {
 				String mixedData = name.html();
 				//StringEscapeUtils.unescapeHtml fonksiyonu turkce karakter problemini cozmek icin kullanildi.
 				//Her zaman gerekmeyebilir. 
-				song.singer = StringEscapeUtils.unescapeHtml(mixedData.substring(0, mixedData.indexOf("<br />"))).toUpperCase();
-				song.name = StringEscapeUtils.unescapeHtml(mixedData.substring(mixedData.indexOf("<b>")+"<b>".length(), mixedData.indexOf("</b>"))).toUpperCase();
-				song.mp3Url = url;
+				song.singer = getCapitilize(StringEscapeUtils.unescapeHtml(mixedData.substring(0, mixedData.indexOf("<br />"))), new Locale("TR_tr"));
+				song.name = getCapitilize(StringEscapeUtils.unescapeHtml(mixedData.substring(mixedData.indexOf("<b>")+"<b>".length(), mixedData.indexOf("</b>"))), new Locale("TR_tr"));
+				song.mp3Url = null;
+				if (url != null) {
+					song.mp3Url = URLEncoder.encode(url, "ISO-8859-1");
+				}
 
 				songList.add(song);
 			}

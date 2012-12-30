@@ -14,5 +14,5 @@
 	<string name="info">Uygulama listedeki şarkıları tamponlayarak çalar. İnternet bağlantınız yok ise veya yavaş ise problem yaşayabilirsiniz. </string>
 	<string name="info2">Listeler ilgili web sitelerinden alınmaktadır. Web sitelerinin içeriği değişirse uygulama çalışmayabilir.</string>
 	<string name="info3">Not-1: Liste genellikle haftalık güncelleniyor. Bazen web sitelerinde şarkıların mp3\'ünü bulunmuyor. Haliyle o mp3 de çalınamıyor.</string>
-	<string name="info4">Not-2: Uygulama kullanılırsa geri bildirimlere göre hataları düzeltir, yeni özellikler eklemeye çalışırız.</string>
+	<string name="info4">Not-2: Bu açık kaynak kodlu hobi amaçlı geliştirilmiş bir uygulamadır. http://code.google.com/p/top-music-lists/</string>
 </resources>

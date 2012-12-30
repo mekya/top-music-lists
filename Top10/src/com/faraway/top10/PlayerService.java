@@ -12,6 +12,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
@@ -156,7 +158,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 					prepare(songIndex);
 					return;
 				}
-				mediaPlayer.setDataSource(getActiveList().getSongList().get(songIndex).mp3Url);
+				mediaPlayer.setDataSource(URLDecoder.decode(song.mp3Url, "ISO-8859-1"));
 				mediaPlayer.prepareAsync();
 				mediaPlayer.setOnPreparedListener(this);
 				mediaPlayer.setOnCompletionListener(this);

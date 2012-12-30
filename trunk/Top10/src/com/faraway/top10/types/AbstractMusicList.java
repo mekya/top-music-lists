@@ -12,8 +12,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Locale;
+
+import org.apache.commons.lang.StringUtils;
 
 import android.content.Context;
 
@@ -98,6 +102,13 @@ public abstract class AbstractMusicList {
 			e.printStackTrace();
 		}
 		return songList;
+	}
+	
+	public String getCapitilize(String str, Locale locale) 
+	{
+		str = str.toLowerCase(locale);
+		str = StringUtils.capitaliseAllWords(str);
+		return str;
 	}
 
 	public abstract String getURL();

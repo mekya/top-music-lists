@@ -68,7 +68,16 @@ public class SongListActivity extends SherlockFragmentActivity{
 	BroadcastReceiver songStatusReceiver = new BroadcastReceiver(){
 
 		public void onReceive(Context context, Intent intent) {
-			if (intent.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED))
+			String action = intent.getAction();
+			if (action.equals(PlayerService.DOWNLOAD_STARTED))
+			{
+				setSupportProgressBarIndeterminateVisibility(true);
+			}
+			else if (action.equals(PlayerService.DOWNLOAD_FINISHED))
+			{
+				setSupportProgressBarIndeterminateVisibility(false);
+			}	
+			else if (action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED))
 			{
 				// stop the player if phone state has changed.
 				player.stop();
@@ -125,6 +134,8 @@ public class SongListActivity extends SherlockFragmentActivity{
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(PlayerService.PLAYING_SONG_CHANGED);
 		filter.addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
+		filter.addAction(PlayerService.DOWNLOAD_STARTED);
+		filter.addAction(PlayerService.DOWNLOAD_FINISHED);
 		registerReceiver(songStatusReceiver, filter);
 	}
 

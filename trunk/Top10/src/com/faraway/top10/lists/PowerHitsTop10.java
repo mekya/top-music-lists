@@ -63,7 +63,6 @@ public class PowerHitsTop10 extends AbstractMusicList {
 		Elements mp3List = listElements.getElementsByClass("play");
 
 		for (int i = 0; i < info.size(); i++) {
-			try {
 				Song song = new Song();
 				song.singer = info.get(i).getElementsByClass("name").get(0).text();
 				song.singer = getCapitilize(song.singer, Locale.ENGLISH);
@@ -73,18 +72,17 @@ public class PowerHitsTop10 extends AbstractMusicList {
 
 				String mp3Url = mp3List.get(i).attr("rel");
 				if (mp3Url != null) {
-					song.mp3Url = URLEncoder.encode(mp3Url, "ISO-8859-1");
+					song.mp3Url = mp3Url.replaceAll(" ", "%20");
 				}
+				song.fileFullPath = context.getFilesDir() + "/" + new String(LIST_NAME + song.singer + song.name + ".mp3").replaceAll("\\s", "");
 				songList.add(song);			
 
-			} catch (UnsupportedEncodingException e) {
 
-				e.printStackTrace();
-			}
 		}
 		return songList;	
 	}
 
+	
 
 	@Override
 	public String getURL() {

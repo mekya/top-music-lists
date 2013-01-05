@@ -80,8 +80,10 @@ public class KralFMTop10List extends AbstractMusicList {
 				song.name = getCapitilize(StringEscapeUtils.unescapeHtml(mixedData.substring(mixedData.indexOf("<b>")+"<b>".length(), mixedData.indexOf("</b>"))), new Locale("TR_tr"));
 				song.mp3Url = null;
 				if (url != null) {
-					song.mp3Url = URLEncoder.encode(url, "ISO-8859-1");
+					song.mp3Url = url;
 				}
+				
+				song.fileFullPath = context.getFilesDir() + "/" + new String(LIST_NAME + song.singer + song.name + ".mp3").replaceAll("\\s", "");
 
 				songList.add(song);
 			}

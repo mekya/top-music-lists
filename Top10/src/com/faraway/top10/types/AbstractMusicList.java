@@ -58,7 +58,7 @@ public abstract class AbstractMusicList {
 		}
 		return songList;
 	}
-	
+
 	protected void writeToFile(Object object) throws IOException {
 		//Sarkilar serialization yontemi ile dosyaya yaziliyor
 		FileOutputStream fileOutputStream;
@@ -67,10 +67,10 @@ public abstract class AbstractMusicList {
 		outputStream.writeObject(object);
 		outputStream.close();
 	}
-	
-	
+
+
 	public ArrayList<Song> refreshSongList() {
-		
+		deleteFiles();
 		try {
 			URL url = new URL(getURL());
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -92,8 +92,8 @@ public abstract class AbstractMusicList {
 			//Indirilen html dosyasi parse edilerek icindeki sarkilar bulunuyor.
 			songList = parse(content);
 			in.close();
-			
-			
+
+
 			writeToFile(songList);
 
 		} catch (FileNotFoundException e) {
@@ -103,12 +103,52 @@ public abstract class AbstractMusicList {
 		}
 		return songList;
 	}
-	
+
 	public String getCapitilize(String str, Locale locale) 
 	{
 		str = str.toLowerCase(locale);
 		str = StringUtils.capitaliseAllWords(str);
 		return str;
+	}
+
+	public void downloadFile(String address, String fileName){
+		try {
+			URL url = new URL(address);
+			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setReadTimeout(10000);
+			urlConnection.setConnectTimeout(15000);
+			urlConnection.setRequestMethod("GET");
+			urlConnection.setDoInput(true);			
+			urlConnection.connect();
+
+			InputStream in = urlConnection.getInputStream(); //getAssets().open("kralfmtop10.htm");
+
+			File f = new File(fileName);
+			FileOutputStream fileOutputStream = new FileOutputStream(f);
+			
+			byte[] buffer = new byte[1024];
+			int readCount;
+			while( (readCount = in.read(buffer, 0, buffer.length)) > 0) {
+				fileOutputStream.write(buffer, 0, readCount);
+			}
+			fileOutputStream.close();
+			f.setReadable(true, false);
+			in.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void deleteFiles()
+	{
+		ArrayList<Song> list = getSongList();
+		for (int i = 0; i < list.size(); i++){
+			File f = new File(list.get(i).fileFullPath);
+			if (f.exists()) {
+				f.delete();
+			}
+		}
 	}
 
 	public abstract String getURL();

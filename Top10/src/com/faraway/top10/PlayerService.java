@@ -1,61 +1,50 @@
 package com.faraway.top10;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
+
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.media.MediaPlayer.OnPreparedListener;
+import android.os.Binder;
+import android.os.Handler;
+import android.os.IBinder;
+import android.widget.Toast;
 
 import com.faraway.top10.lists.KralFMTop10List;
 import com.faraway.top10.lists.PowerHitsTop10;
 import com.faraway.top10.types.AbstractMusicList;
 import com.faraway.top10.types.Song;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnInfoListener;
-import android.media.MediaPlayer.OnPreparedListener;
-import android.os.Binder;
-import android.os.IBinder;
-import android.widget.Toast;
-
 public class PlayerService extends Service implements OnCompletionListener, OnPreparedListener{
 
 
+	
 	private MediaPlayer mediaPlayer = null;
 	private int playingSongIndex = -1;
 	public 	static final String SONG_INDEX = "Player.SONG_INDEX";
 	private static final int NOTIFICATION_ID = 1;
 	public static final String PLAYING_SONG_CHANGED = "PlayerService.PLAYING_SONG_CHANGED";
-	
 
+
+	private Handler handler = new Handler();
 	private PSBinder iBinder = new PSBinder();
 	private boolean mediaPlayerIsActive = false;
 	private MediaPlayer tempMediaPlayer;
 	public static final String SONG_NAME = "SONG_NAME";
 	public static final String LIST_INDEX = "Player.LIST_INDEX";
+	public static final String DOWNLOAD_STARTED = "PlayerService.DOWNLOAD_STARTED";
+	public static final String DOWNLOAD_FINISHED = "PlayerService.DOWNLOAD_FINISHED";
 
 
 	private ArrayList<AbstractMusicList> musicLists = new ArrayList<AbstractMusicList>();
 	private int activeMusicList = 0;
-	
+
 	public class PSBinder extends Binder {
 		public PlayerService getService(){
 			return PlayerService.this;
@@ -67,8 +56,8 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 		musicLists.add(new PowerHitsTop10(getApplicationContext()));
 		super.onCreate();
 	}
-	
-	
+
+
 	private AbstractMusicList getActiveList() {
 		return this.musicLists.get(activeMusicList);
 	}
@@ -137,43 +126,84 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 		return name;
 	}
 
-	private void prepare(int songIndex) 
+	/**
+	 * Prepares mediaPlayer object when mp3 file has been downloaded
+	 * @param songIndex
+	 * @param song
+	 */
+	private void prepareMediaPlayer(int songIndex, Song song){
+		mediaPlayer = new MediaPlayer();
+		try {
+
+			mediaPlayer.setDataSource(song.fileFullPath);
+			mediaPlayer.prepareAsync();
+			mediaPlayer.setOnPreparedListener(this);
+			mediaPlayer.setOnCompletionListener(this);
+
+			mediaPlayerIsActive = true;
+
+			this.playingSongIndex = songIndex;
+			notify(song.singer, song.name, getString(R.string.loading));
+			//send broadcast with playingSongIndex and songName 
+			Intent i = new Intent(PlayerService.PLAYING_SONG_CHANGED);
+			i.putExtra(SONG_INDEX, this.playingSongIndex);
+			i.putExtra(LIST_INDEX, activeMusicList);
+			i.putExtra(SONG_NAME , getActiveList().getSongList().get(this.playingSongIndex).name);
+			sendBroadcast(i);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void prepare(final int songIndex) 
 	{
 		if (getActiveList().getSongList().size() > songIndex) {
-			mediaPlayer = new MediaPlayer();
+
+			final Song song = getActiveList().getSongList().get(songIndex);
 
 			try {
-				Song song = getActiveList().getSongList().get(songIndex);
+				/*
+				 * below "if" is for songs that doesnt have mp3 url.
+				 * It skips that song to next one
+				 */
 				if (song == null || song.mp3Url == null) {
 
 					Toast.makeText(getApplicationContext(), 
 							getString(R.string.problem_in_song), Toast.LENGTH_LONG).show();
-					songIndex++;
-					prepare(songIndex);
+					int nextSong = songIndex + 1;
+					prepare(nextSong);
 					return;
 				}
-				mediaPlayer.setDataSource(URLDecoder.decode(song.mp3Url, "ISO-8859-1"));
-				mediaPlayer.prepareAsync();
-				mediaPlayer.setOnPreparedListener(this);
-				mediaPlayer.setOnCompletionListener(this);
-				mediaPlayerIsActive = true;
+				File f = new File(song.fileFullPath);
+				if (f.exists()) {
+					prepareMediaPlayer(songIndex, song);
+				}
+				else {
+					
+					sendBroadcast(new Intent(PlayerService.DOWNLOAD_STARTED));
+					
+					new Thread() {
 
-				this.playingSongIndex = songIndex;
-				notify(song.singer, song.name, getString(R.string.loading));
-				//send broadcast with playingSongIndex and songName 
-				Intent i = new Intent(PlayerService.PLAYING_SONG_CHANGED);
-				i.putExtra(SONG_INDEX, this.playingSongIndex);
-				i.putExtra(LIST_INDEX, activeMusicList);
-				i.putExtra(SONG_NAME , getActiveList().getSongList().get(this.playingSongIndex).name);
-				sendBroadcast(i);
+						public void run() {
+							getActiveList().downloadFile(song.mp3Url, song.fileFullPath);
+							sendBroadcast(new Intent(PlayerService.DOWNLOAD_FINISHED));
+							prepareMediaPlayer(songIndex, song);
+
+						};
+					}.start();
+				}
 
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (SecurityException e) {
 				e.printStackTrace();
 			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}

@@ -31,28 +31,38 @@ public abstract class AbstractMusicList {
 		this.context = context;
 	}
 
+
+	private ArrayList<Song> readSongList()
+	{
+		File cacheFile = new File(context.getFilesDir().toString() + "/" + getCacheFileName());
+
+		ArrayList<Song> list = null;
+		if (cacheFile.exists()) {
+			FileInputStream fileInputStream;
+			try {
+				fileInputStream = context.openFileInput(getCacheFileName());
+				ObjectInputStream inputStream = new ObjectInputStream(fileInputStream);
+				list = ((ArrayList<Song>)inputStream.readObject());
+				inputStream.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
+
 	public ArrayList<Song> getSongList() 
 	{
 		if (songList == null) 
 		{
-			File cacheFile = new File(context.getFilesDir().toString() + "/" + getCacheFileName());
+			songList = readSongList();
 
-			if (cacheFile.exists()) {
-				FileInputStream fileInputStream;
-				try {
-					fileInputStream = context.openFileInput(getCacheFileName());
-					ObjectInputStream inputStream = new ObjectInputStream(fileInputStream);
-					songList = ((ArrayList<Song>)inputStream.readObject());
-					inputStream.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-			}
-			else {
+			if (songList == null) {
 				songList = refreshSongList();
 			}
 		}
@@ -93,7 +103,6 @@ public abstract class AbstractMusicList {
 			songList = parse(content);
 			in.close();
 
-
 			writeToFile(songList);
 
 		} catch (FileNotFoundException e) {
@@ -125,7 +134,7 @@ public abstract class AbstractMusicList {
 
 			File f = new File(fileName);
 			FileOutputStream fileOutputStream = new FileOutputStream(f);
-			
+
 			byte[] buffer = new byte[1024];
 			int readCount;
 			while( (readCount = in.read(buffer, 0, buffer.length)) > 0) {
@@ -139,14 +148,16 @@ public abstract class AbstractMusicList {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void deleteFiles()
 	{
-		ArrayList<Song> list = getSongList();
-		for (int i = 0; i < list.size(); i++){
-			File f = new File(list.get(i).fileFullPath);
-			if (f.exists()) {
-				f.delete();
+		ArrayList<Song> list = readSongList();
+		if (list != null) {
+			for (int i = 0; i < list.size(); i++){
+				File f = new File(list.get(i).fileFullPath);
+				if (f.exists()) {
+					f.delete();
+				}
 			}
 		}
 	}

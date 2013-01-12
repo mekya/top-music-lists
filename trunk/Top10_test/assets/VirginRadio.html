@@ -1,0 +1,1937 @@
+
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+
+
+  <meta charset="utf-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="shortcut icon" href="http://rs.dygrd.com/vgn/i/common/virginradio.ico" type="image/x-icon" />
+
+  <title>Virgin Radio Turkiye - Chart 30</title>
+  <meta name="description" content="Türkiye'nin en iyi yabancı müzik radyosu Virgin Radio Turkiye">
+  <meta name="author" content="Virgin Radio Turkiye">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="http://rs.dygrd.com/css/virginradio/default.css?v=1.0.4751.27831?v=1.0.4751.27831" /><link rel="stylesheet" type="text/css" href="http://rs.dygrd.com/css/helper.css?v=1.0.4751.27831?v=1.0.4751.27831" />
+		   
+
+<script src="http://rs.dygrd.com/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+
+
+
+<link href="http://rs.dygrd.com/jquery-themes/virginradio2/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="http://rs.dygrd.com/js/jquery-ui-1.8.17.custom.js" type="text/javascript"></script>
+
+<script src="http://rs.dygrd.com/js/jquery.mousewheel.js" type="text/javascript"></script>
+<script src="http://rs.dygrd.com/js/jquery.tmpl.min.js" type="text/javascript"></script>
+<script src="http://rs.dygrd.com/js/json2.js" type="text/javascript"></script>
+
+<script src="http://rs.dygrd.com/js/modernizr-2.5.3.min.js" type="text/javascript"></script>
+
+<script src="http://rs.dygrd.com/js/jquery.dataSelector.js" type="text/javascript"></script>
+
+
+<link rel="stylesheet" href="http://rs.dygrd.com/css/jquery-ui-timepicker-addon.css" type="text/css" media="screen" charset="utf-8" />
+<script type="text/javascript" src="http://rs.dygrd.com/js/jquery-ui-timepicker-addon.js"></script>
+
+
+<script src="http://rs.dygrd.com/js/jquery.ui.datepicker-tr.js" type="text/javascript"></script>
+
+<script src="http://rs.dygrd.com/js/jquery.history.1.7.1.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="http://rs.dygrd.com/css/framework.css?v=1.0.4751.27831" />
+<script type="text/javascript" src="http://rs.dygrd.com/js/framework.min.js?v=1.0.4751.27831"></script>
+
+<script type="text/javascript">
+
+	Framework.Events.OnBeforeModuleInitializing.Subscribe(function ()
+	{ 
+		Framework.SetResourcesUrl('http://rs.dygrd.com/');
+		Framework.SetRepositoryUrl('http://rp.dygrd.com/');
+	});
+			
+</script>
+
+																						  
+<style type="text/css">
+		
+	#modal-dialog-messageBox
+	{
+		text-align:center; 
+		vertical-align:middle; 
+		margin-top:10px;
+		width:100%;
+		height:100%;
+	}
+			
+	#modal-dialog-alertBox div
+	{
+		text-align:center; 
+		width:100%; 
+		vertical-align:middle; 
+		margin-top:10px; 
+		color:Red; 
+		font-weight:bold;
+	}
+	
+	#modal-dialog-alertBox-warning
+	{
+		background-attachment:fixed;
+		background:url('/resources/img/common/alert.jpg') no-repeat 10px 50%;
+		padding-left:50px;
+		min-height:50px;
+		padding-top:10px;
+	}
+	
+	#modal-dialog-overlay-button
+	{
+		z-index: 2000;
+		position: fixed; 
+		top: 0px; 
+		right: 0px; 
+		background-color: White; 
+		color:Black; 
+		border-radius: 0px 0px 0px 6px; 
+		cursor: pointer; 
+		padding: 8px; 
+		font-weight: bold;
+	}
+	
+	.ui-widget-overlay
+	{
+		background:#000;
+		opacity: 0.6;
+		filter:Alpha(Opacity=60);
+	}
+	
+	.ui-widget-content{ background:#0F0F0F; border:0; color:#fff}
+	.ui-widget-header{}
+	.ui-corner-all{ border:0}
+	.ui-dialog,.ui-dialog .ui-dialog-content{ padding:0}
+	
+	.song.ui-dialog .ui-dialog-titlebar{ background:url('http://rs.dygrd.com/img/virginradio/sprite-x.png') 0 -150px repeat-x; color:#fff}
+	
+	.ui-dialog .ui-dialog-titlebar{ background:#000; color:#fff}
+	
+	.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{ font-size:13px; font-family:Arial, Helvetica}
+
+	/*#modal-dialog-overlay-button{ display:none !important}*/
+	
+</style>
+
+<div id="modal-dialog-messageBox" style="display:none;"></div>
+<div id="modal-dialog-alertBox" style="display:none;">
+	<div>
+		<div id="modal-dialog-alertBox-warning">${Message}</div>
+	</div>
+</div>
+<div id="modal-dialog-overlay-button" style="display:none;" >KAPAT</div>
+
+<style>
+
+#framework_spinner_overlay
+{
+	background:url('http://rs.dygrd.com/img/common/tranparent-60.png') repeat scroll 0 0 transparent;
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	z-index:20000;
+}
+
+</style>
+
+<style>
+
+#framework_spinner_spinTab
+{
+	background: none repeat scroll 0 0 WhiteSmoke;
+	border-radius: 10px 10px 10px 10px;
+	color: white;
+	position: absolute;
+	top:30%;
+	left: 50%;
+	margin-left: -50px;
+	width: 100px;
+	height: 100px;
+	z-index: 20010;
+}
+
+#framework_spinner_spinTab span
+{
+	display: block;
+	padding-top: 115px;
+	text-align: center;
+	line-height: 150%;
+	z-index: 20011;
+	font-family:Tahoma;
+	font-size:11px;
+}
+
+#framework_spinner_spinTab img
+{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -32px;
+	margin-top: -32px;
+	z-index: 20012;
+}
+
+</style>
+
+<script type="text/javascript" src="http://rs.dygrd.com/js/spin.min.js"></script>
+
+<div id="framework_spinner_overlay" style="display:none;">
+	<div id="framework_spinner_spinTab">
+		<img src="http://rs.dygrd.com/img/common/success-icon.png" width="64" height="64" style="display:none;" class="success" />
+		<img src="http://rs.dygrd.com/img/common/failure-icon.png" width="64" height="64" style="display:none;" class="failure" />
+		<span></span>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+
+		/*footer->radyolar listesi*/
+		$('.radyolar').live("click", function (e)
+		{
+			e.preventDefault();
+			$('.overlay').removeClass("hide").addClass("show");
+			$('.radyo-listesi').removeClass("hide").addClass("show");
+		})
+
+		$('.charts .share-this').hover(function (e)
+		{
+			e.preventDefault();
+			$(this).css("height", "115px").css("z-index", "60")
+		},
+		function ()
+		{
+			$(this).css("height", "20px").css("z-index", "0")
+		});
+
+	});
+
+</script>
+
+<script type="text/javascript">
+
+/// <reference path="/resources/js/jquery-vsdoc.js">
+/// <reference path="/resources/js/framework.js">
+/// <reference path="../Shared/HorizontalSlider.js">
+
+Framework.Modules.Master = Framework.DefineModule("Master", new function ()
+{
+
+	var thisModule = this;
+
+	this.OnDocumentReady = function ()
+	{
+
+		var me = this;
+
+		this.PrevButton = $("#bg-left");
+		this.NextButton = $("#bg-right");
+
+		this.ContentContainer = $("#contentContainer");
+		this.Header = $("header");
+
+		this.PrevButton.click(function () { Framework.Modules.BgSlider.Prev(); });
+		this.NextButton.click(function () { Framework.Modules.BgSlider.Next(); });
+
+		//		window.onpopstate = function (event)
+		//		{
+		//			Framework.Logger.AppendLog("onpopstate => location: " + document.location.href + ", data: " + JSON.stringify(event.state));
+		//			document.location = document.location.href;
+		//			//me.ChangeModule(Framework.Modules[event.state.moduleName], event.state.options);
+		//		};
+
+		//		window.onhashchange = function (event)
+		//		{
+		//			Framework.Logger.AppendLog("onhashchange => location: " + document.location.href);
+		//		};
+
+		// history.pushState({ page: 1 }, "title 1", "?page=1");
+		// history.pushState({ page: 1 }, "title 1", "news/adele-amy-winehouse-u-gecti");
+		// document.location.hash = 'asd';
+	};
+
+	this.PrevButton = {};
+
+	this.NextButton = {};
+
+	this.MaximizeHeaderWidth = function ()
+	{
+		var wWidth = $('body #container').width();
+		var wLogo = $('header .logo').width();
+		$("header .headerRight").css('width', wWidth - wLogo);
+	};
+
+	this.MinimizeHeaderWidth = function ()
+	{
+		$("header .headerRight").css('width', 'auto');
+	};
+
+	this.ContentContainer = $();
+
+	this.Header = $();
+
+	this.GetCurrentModuleName = function ()
+	{
+		return $("body").data("module");
+	};
+
+	this.GetCurrentModule = function ()
+	{
+		return Framework.Modules[this.GetCurrentModuleName()];
+	};
+
+	this.ChangeModule = function (newModule, options)
+	{
+		changeModule(newModule, this.GetCurrentModule(), setCurrentHeaderLink, options);
+
+		// Push State
+		// history.pushState({ moduleName: newModule.ModuleName, options: options }, newModule.ModuleName, options.url);
+	};
+
+	var changeModule = function (newModule, prevModule, setCurrentHeaderLinkFunction, options)
+	{
+
+		if (prevModule.Unload == null)
+		{
+			alert("Prev Module " + prevModule.ModuleName + " does not have Unload method");
+			return;
+		}
+
+		if (newModule.Load == null)
+		{
+			alert("New Module " + newModule.ModuleName + " does not have Load method");
+			return;
+		}
+
+		if (prevModule.BodyClassName.isNullOrEmpty())
+		{
+			alert("Prev Module " + prevModule.ModuleName + " does not have BodyClassName");
+			return;
+		}
+
+		if (newModule.BodyClassName.isNullOrEmpty())
+		{
+			alert("New Module " + newModule.ModuleName + " does not have BodyClassName");
+			return;
+		}
+
+		Framework.Logger.ClearLog();
+
+		prevModule.Unload(null, function ()
+		{
+			$("body").removeClass(prevModule.BodyClassName);
+			$("body").addClass(newModule.BodyClassName);
+
+			$("body").data('module', newModule.ModuleName);
+
+			newModule.Load($.extend({}, options, { isDirectLoad: false }));
+
+			setCurrentHeaderLinkFunction(newModule);
+
+		});
+
+	};
+
+	var setCurrentHeaderLink = function (module)
+	{
+		var links = $("header nav ul li a").removeClass("current");
+
+		var a = links.filter(':data("module=' + module.ModuleName + '")');
+
+		if (a.length > 0)
+		{
+			a.addClass("current");
+		}
+	};
+
+});
+
+Framework.RegisterModule(Framework.Modules.Master);
+
+</script>
+
+<script type="text/javascript">
+		
+</script>
+
+
+
+<script type="text/javascript">
+
+	Framework.Modules.Iletisim = Framework.DefineModule("Iletisim", {
+
+		Container: $(""),
+		Button: $(""),
+
+		OnDocumentReady: function () {
+
+			var me = this;
+
+			me.Container = $(".iletisimdetaybox");
+
+			me.Button = me.Container.find(".submitMessage");
+
+			$('.iletisimdetay').live("click", function (e) { me.PopupIletisimBox(); })
+
+			me.Button.click(function () { me.SubmitForm(); return false; });
+
+			Framework.Utility.HoverString.HoverString(me.Container.find(".userInput"));
+
+			if (Framework.Utility.GetQueryStringParam("contact") == "show") 
+			{
+				me.PopupIletisimBox();
+			}
+
+		},
+
+		PopupIletisimBox: function () {
+			this.Button.show();
+			if (this.Button.next().is("span"))
+				this.Button.next().remove();
+
+			Framework.Dialog.Show('.iletisimdetaybox', 'İletişim', { clone: false, buttonsEnabled: false, width: 725, draggable: true, resizable: false });
+			this.Container.find(".sendbutton").focus();
+		},
+
+		SubmitForm: function () {
+			var me = this;
+
+			var hoveredInputs = this.Container.find(".userInput");
+
+			Framework.Utility.HoverString.ShowUserValues(hoveredInputs);
+
+			var formData = this.Container.find(".formIletisim").serializeArray(); // [ { name : "", value : "" }] şeklinde array e dönüştürür
+
+			Framework.Utility.HoverString.HideUserValues(hoveredInputs);
+
+			//			var selectedCategories = Views.Video.AddEdit.GetSelectedCategories();
+			//			for (var i = 0; i < selectedCategories.length; i++)
+			//				formData = formData.concat({ name: "CategoryIDs", value: selectedCategories[i] });
+
+			//			var newImageFileNames = Framework.FileUploader.SelectedFileNames;
+			//			for (var i = 0; i < newImageFileNames.length; i++)
+			//				formData = formData.concat({ name: "NewImageFileNames", value: newImageFileNames[i] });
+
+			//			şu an kullanmadık
+			//			var contentDate = $("#ContentDate").datepicker('getDate');
+			//			if ( contentDate != null )
+			//			{
+			//				formData = formData.concat( { name : "ContentDate", value : contentDate.toUTCString() } );
+			//			}
+
+			var spinner = new Framework.Spinner(me.Container.selector);
+
+			var isSent = false;
+
+			Framework.Ajax(
+			{
+				contentType: Framework.ContentTypes.Form,
+				url: "/Stuff/AcceptIletisimInfo",
+				data: formData,
+				success: function (result) {
+					isSent = true;
+				},
+				error: function (result) {
+					spinner.SetFailureIcon();
+					Framework.AlertResult(result);
+				},
+				beforeSend: function () {
+					spinner.Start("Mesajınız gönderiliyor...");
+				},
+				complete: function () {
+					if (isSent) {
+						spinner.Stop("Mesajınız gönderildi", 2000, Framework.JobStatus.Success);
+
+						me.Button.hide();
+						$("<span style=\"margin-left:2px;\">Mesajınız Gönderildi</span>").insertAfter(me.Button);
+					}
+
+					spinner.Stop();
+				}
+
+			});
+		}
+
+
+	});
+
+	Framework.RegisterModule(Framework.Modules.Iletisim);
+
+</script>
+
+<script type="text/javascript">
+Framework.Modules.Frekanslar = Framework.DefineModule("Frekanslar",
+{
+
+	OnDocumentReady: function ()
+	{
+		$('.frekansdetay').live("click", function (e)
+		{
+			Framework.Dialog.Show('.frekansdetaybox', 'Frekanslar', 
+			{ clone : false, buttonsEnabled : false, width: 660, draggable : false });
+		})
+	}
+
+});
+
+Framework.RegisterModule(Framework.Modules.Frekanslar);
+
+</script>    
+<script type="text/javascript">
+    
+    Framework.Modules.Kunye = Framework.DefineModule("Kunye",
+        {
+            OnDocumentReady: function() {
+                $('.kunyedetay').live("click", function (e) {
+                    Framework.Dialog.Show('.kunyedetaybox', 'Kunye',
+                        { clone: false, buttonsEnabled: false, width: 350, draggable: false, resizable: false });
+                });
+            }
+        });
+
+    Framework.RegisterModule(Framework.Modules.Kunye);
+
+</script>
+
+<script type="text/javascript">
+
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-1120382-23']);
+	_gaq.push(['_setDomainName', '.virginradioturkiye.com']);
+	_gaq.push(['_trackPageview']);
+
+	(function ()
+	{
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+
+</script>
+	
+			
+		<script type="text/javascript">var wid=4555,gid=14616;</script>
+		<script src="http://ad.reklamport.com/scripts/rp.js" type="text/javascript"></script>
+
+</head>
+
+<body class="charts no-slider" data-module="Charts">
+
+		   
+
+
+<div id="fb-root">
+</div>
+
+<script type="text/javascript">
+	(function (d, s, id)
+	{
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=261385350379";
+		fjs.parentNode.insertBefore(js, fjs);
+	} (document, 'script', 'facebook-jssdk'));
+</script>
+
+<div id="bgContainer">
+			<img data-url="http://rs.dygrd.com/img/virginradio/backgrounds/04_chart30.jpg" data-id="0" data-contenturl="/icerik/0" 
+ src="http://img-virginradioturkiye.mncdn.com/"  class="current"  alt="" />
+	<img src="http://rs.dygrd.com/img/common/dot.png" class="transition" alt="" />
+</div>	<div id="wrapper">	
+		<div id="container">
+
+
+	<script type="text/javascript" src="http://rs.dygrd.com/dyg/dygradyolar.js"></script>
+
+<script type="text/javascript">
+
+	Framework.Modules.Header = Framework.DefineModule("Header",
+	{
+
+		PlayingSongUrl: "",
+
+		OnDocumentReady: function () {
+
+			var me = this;
+
+			DygRadyolar.LivePlayer.SetForPopup("#header_link_canli_dinle", DygRadyolar.RadioNames.VirginRadio);
+
+			//			$("#header_link_canli_dinle").click(function ()
+			//			{
+			//				Framework.Utility.Popup("/live", "VirginRadioTurkiyeLive", (me.IsChrome() ? 580 : 560), 423, false, false, false);
+			//			});
+
+			me.SetPlayingSong();
+
+			window.setInterval(function () { me.SetPlayingSong(); }, 10000);
+
+			this.RegulateBanners();
+		},
+
+		RegulateBanners: function () {
+			var visible = $("#banner .link:visible");
+			var hidden = $("#banner .link:hidden");
+
+			if (visible.length > 0 && hidden.length > 0) {
+
+				window.setInterval(function () {
+
+					var visible = $("#banner .link:visible");
+					var hidden = visible.next();
+					if (hidden.length == 0) 
+					{
+						hidden = $("#banner .link:first");
+					}
+					visible.fadeOut(1000, function () {
+						hidden.fadeIn(2000);
+					});
+					
+				}, 12500);
+			}
+		},
+
+		IsChrome: function () {
+			return window.chrome != null;
+		},
+
+		SetPlayingSong: function () {
+			$("#playingSong").load(this.PlayingSongUrl + "?id=" + Math.random());
+		}
+
+	});
+
+	Framework.Modules.Header.PlayingSongUrl = '/Stuff/GetPlayingSong';
+
+	Framework.RegisterModule(Framework.Modules.Header);
+		
+</script>
+
+
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$("nav li").hover(
+			function ()
+			{
+				$(this).addClass("active-menu");
+				if ($(this).find("ul").length > 0)
+				{
+					$("#menu-overlay").css("display", "block");
+				}
+				$("#nav ul ul").css("display", "block");
+				$("footer").css("z-index", "2");
+			},
+			function ()
+			{
+				$(this).removeClass("active-menu");
+				$("#menu-overlay").css("display", "none");
+				$("footer").css("z-index", "505");
+			}
+		);
+	});
+
+</script>
+
+<header class="clearfix">
+	<a href="/" class="sprite-ir logo">Virgin RADIO</a>
+				
+	<div class="fleft headerRight">
+			<div id="banner" style="display:block; overflow:hidden; height:90px; width:728px;">
+				<div id="banners">
+									
+				<script type="text/javascript">
+					var url = "http://ad.reklamport.com/rpgetad.ashx?tt=t_virginradioturkiye_site_genel_728x90&rnd="
+					url = url + Math.random() % 99999999;
+					document.write("<script src='"  + url + "'><\/script>");
+				</script>
+																								
+					
+				</div>
+			</div>	  
+		<div style="margin: 0px auto 10px; margin-left:21px; margin-top:0px !important; " class="nav-cont">
+			<div id="menu-overlay"></div>
+			<nav>
+				<ul class="clearfix">
+					<li><a id="header_link_home"  href="\" >Anasayfa</a></li>
+					
+					<li></li>
+					<li><a id="header_link_haber_etkinlik">Haberler</a>
+						<ul>
+							<li><a href="/haberler">Haberler</a></li>
+							<li><a href="/etkinlikler">Etkinlikler</a></li>
+						</ul>
+					</li>
+					<li><a id="header_link_dj_program">DJ / Program</a>
+						<ul>
+							<li><a href="/djler">DJ'ler</a></li>
+							<li><a href="/programlar">Programlar</a></li>
+						</ul>
+					</li>
+					<li><a href="/yayinakisi">Yayın Akışı</a></li>
+					
+					<li><a href="/podcasts?ChartName=Podcast">Podcast</a>
+				</ul>
+			</nav>
+			
+			<div class="sprite player">
+				<div id="playingSong"></div>
+				<a id="header_link_canli_dinle" class="pointer" title="Canlı yayını dinlemek için tıklayınız">Canlı Dinle</a>
+			</div>
+
+		</div>
+	</div>
+				
+	<a href="" class="sprite-ir fb-live" style="display:none">Canlı Yayına Mesaj Gönder</a>
+</header>
+<!-- .header -->			<div id="main" role="main" class="clearfix">
+				<div class="clearfix" id="contentContainer"  >
+					<!-- CONTENT HERE -->
+					
+		   
+
+		   
+
+
+<script type="text/javascript">
+
+/// <reference path="/resources/js/jquery-vsdoc.js">
+/// <reference path="/resources/js/framework.js">
+/// <reference path="../Shared/BgSlider.js">
+/// <reference path="../Shared/HorizontalSlider.js">
+/// <reference path="../Shared/Master.js">
+
+Framework.Modules.Charts = Framework.DefineModule("Charts",
+{
+
+	FuturedSongUrl: "",
+
+	CurrentChartName: "",
+
+	ChartsContainerSelector: "#chartsContainer",
+	ListContainerSelector: "#chartsListContainer",
+
+	CurrentModal: null,
+
+	OnDocumentReady: function ()
+	{
+
+		var me = this;
+
+		Framework.Modules.History.Events.OnStateChanged.Subscribe(function (event, data)
+		{
+			//Framework.Logger.AppendLog("onStateChanged captured => data: " + JSON.stringify(data));
+
+			var command = data.command;
+
+			switch (command)
+			{
+				case "ChangeChart":
+
+					if (me.CurrentModal)
+					{
+						me.CurrentModal.dialog("close");
+					}
+
+					me.LoadChart(data.url, data.chartName);
+
+					break;
+
+				case "ShowSong":
+
+					me.LoadSong(data.url);
+
+					break;
+			}
+
+
+		});
+
+		Framework.Modules.BgSlider.Options.BackgroundAnimationEnabled = false;
+
+		$(me.ChartsContainerSelector + " .chartLinks").live("click", function ()
+		{
+
+			var previousChartName = me.CurrentChartName;
+
+			var chartName = $(this).data("chartname");
+			var url = $(this).data("url");
+
+			if (chartName != previousChartName)
+			{
+				Framework.Modules.History.PushState({ command: "ChangeChart", chartName: chartName, url: url }, null, url);
+			}
+
+		});
+
+		me.SetLinks();
+
+		$(".viewSong").live("click", function ()
+		{
+			var url = $(this).data("url");
+			Framework.Modules.History.PushState({ command: "ShowSong", url: url }, null, url);
+		});
+
+		$(".viewSongAjax").live("click", function ()
+		{
+			var url = $(this).data("url");
+			Framework.Modules.History.PushState({ command: "ShowSong", url: url }, null, url);
+		});
+
+		if (me.FuturedSongUrl != "")
+		{
+			Framework.Modules.History.PushState({ command: "ShowSong", url: me.FuturedSongUrl }, null, me.FuturedSongUrl);
+		}
+
+	},
+
+	LoadSong: function (songUrl)
+	{
+
+		var me = this;
+
+		var $dialogContainer = $("#songDetailContainer");
+
+		if (me.CurrentModal)
+		{
+			me.CurrentModal.dialog("close");
+		}
+
+		$dialogContainer.html('');
+
+		me.CurrentModal = Framework.Dialog.Show("#songDetailContainer", "",
+		{ clone: false, width: 780, height: 520, resizable: false, buttonsEnabled: false, dialogClass: "song",
+			close: function ()
+			{
+				$dialogContainer.html('');
+			} 
+		});
+
+		songUrl = "/ajax" + songUrl;
+
+		$dialogContainer.load(songUrl, null, function ()
+		{
+			var title = $dialogContainer.find("section").data("title");
+			me.CurrentModal.dialog("option", "title", title);
+		});
+	},
+
+	LoadChart: function (url, chartName)
+	{
+
+		var me = this;
+
+		me.CurrentChartName = chartName;
+
+		var $chartsContainer = $(me.ChartsContainerSelector);
+		var $listContainer = $(me.ListContainerSelector);
+
+		$listContainer.load(url + "/ajax", function ()
+		{
+			me.SetLinks();
+		});
+
+		me.SetLinks();
+
+		document.title = "Virgin Radio Turkiye " + chartName;
+	},
+
+	SetLinks: function ()
+	{
+		var me = this;
+		var $chartsContainer = $(me.ChartsContainerSelector);
+		$chartsContainer.find(".chartLinks").removeClass("selected");
+		$chartsContainer.find(".chartLinks:data('chartname=" + me.CurrentChartName + "')").addClass("selected");
+	}
+
+});
+
+Framework.RegisterModule(Framework.Modules.Charts);
+
+</script>
+
+<script type="text/javascript">
+	Framework.Modules.Charts.CurrentChartName = "Chart30";
+	Framework.Modules.Charts.FuturedSongUrl = "/song/6859/drz6r2ul/chart30/a/b";
+</script>
+<div class="clearfix w900" id="chartsContainer">
+	<section>
+		<div class="chart">
+
+		<ul class="horizontal tabs clearfix">
+			<li>
+				<ul class="clearfix">
+					<li><a class="active">Bu Hafta</a></li>
+										
+				</ul>
+			</li>
+			<li class="sprite tab"><a class="selected pointer chartLinks" data-chartname ="Chart30" data-url="/charts/Chart30" >Chart 30</a></li>
+			<li class="sprite tab" style="display:none;"><a class="pointer chartLinks" data-chartname ="Top20" data-url="/charts/Top20">Top 20</a></li>
+		</ul>
+
+		<div id="chartsListContainer">
+		   
+<ul class="list">
+			<li class="clearfix">
+				<span class="number">1</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121203/6546_6547.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Scream &amp; Shout (feat. Britney Spears)</strong>
+						will.i.am
+					</div>
+					<a data-url="/song/6546/8qukr6ir/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">2</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">2</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121126/6115_6116.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Locked Out of Heaven</strong>
+						Bruno Mars
+					</div>
+					<a data-url="/song/6115/2dyg6c4r/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">1</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">3</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121210/6859_6860.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Everything At Once</strong>
+						Lenka
+					</div>
+					<a data-url="/song/6859/drz6r2ul/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">4</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">4</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121224/7309_7310.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Feel This Moment (feat. Christina Aguilera)</strong>
+						Pitbull
+					</div>
+					<a data-url="/song/7309/abelnede/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">3</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">5</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121126/6113_6114.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Troublemaker (feat. Flo Rida)</strong>
+						Olly Murs
+					</div>
+					<a data-url="/song/6113/30292lm5/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">6</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">6</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121016/4363_4364.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Diamonds</strong>
+						Rihanna
+					</div>
+					<a data-url="/song/4363/ud895mod/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">5</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">7</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121105/5007_5008.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Die Young</strong>
+						Ke$ha
+					</div>
+					<a data-url="/song/5007/zocv77gd/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 		stabil
+">7</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">8</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121112/5383_5384.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Sweet Nothing (feat. Florence Welch)</strong>
+						Calvin Harris
+					</div>
+					<a data-url="/song/5383/lutrszll/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 		stabil
+">8</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">9</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121203/6548_6549.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>My Heart Is Refusing Me</strong>
+						Loreen
+					</div>
+					<a data-url="/song/6548/47mgefxj/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">10</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">10</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121126/6117_6118.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Hall of Fame (feat. will.i.am)</strong>
+						The Script
+					</div>
+					<a data-url="/song/6117/ukhr1n38/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">11</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">11</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121016/4391_4392.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Skyfall</strong>
+						Adele 
+					</div>
+					<a data-url="/song/4391/8xnng0k1/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">12</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">12</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121210/6855_6856.JPG&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>We Are Never Ever Getting Back Together</strong>
+						Taylor Swift
+					</div>
+					<a data-url="/song/6855/58uxkgjh/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">9</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">13</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121231/7552_7553.png&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Try</strong>
+						P!nk
+					</div>
+					<a data-url="/song/7552/04yp5hyk/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">14</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">14</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121016/4369_4370.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Don&#39;t You Worry Child (feat. John Martin)</strong>
+						Swedish House Mafia
+					</div>
+					<a data-url="/song/4369/j1jikfck/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">17</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">15</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121112/5387_5388.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Girl On Fire</strong>
+						Alicia Keys
+					</div>
+					<a data-url="/song/5387/uo2d32u9/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">19</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">16</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121217/7047_7048.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Sad Story</strong>
+						DJ Tarkan
+					</div>
+					<a data-url="/song/7047/zrmy52bg/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">18</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">17</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121016/4359_4360.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>One More Night</strong>
+						Maroon 5
+					</div>
+					<a data-url="/song/4359/5wsmsj9o/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">16</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">18</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121016/4365_4366.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>She Wolf (Falling to Pieces) (feat. Sia)</strong>
+						David Guetta
+					</div>
+					<a data-url="/song/4365/7sr2o25o/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">15</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">19</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121119/5809_5810.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Can You Hear Me (Ayayaya) (feat. Skepta, JME &amp; Ms D)</strong>
+						Wiley
+					</div>
+					<a data-url="/song/5809/721kyxlo/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">13</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">20</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20130107/7756_7757.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Numb</strong>
+						Usher
+					</div>
+					<a data-url="/song/7756/cj7l4fti/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 		new
+"></span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">21</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121210/6857_6858.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>I&#39;m In Love</strong>
+						Ola
+					</div>
+					<a data-url="/song/6857/ivqpru4s/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">20</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">22</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121016/4393_4394.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Finally Found You (feat. Sammy Adams)</strong>
+						Enrique Iglesias
+					</div>
+					<a data-url="/song/4393/0v7je3a0/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">23</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">23</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121016/4355_4356.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Gangnam Style</strong>
+						PSY
+					</div>
+					<a data-url="/song/4355/xjfvm7h3/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">22</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">24</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121016/4375_4376.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Let Me Love You (Until You Learn to Love Yourself)</strong>
+						Ne-Yo
+					</div>
+					<a data-url="/song/4375/jiyo4rz8/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">30</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">25</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121231/7554_7555.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Rest of My Life (feat. Usher &amp; David Guetta)</strong>
+						Ludacris
+					</div>
+					<a data-url="/song/7554/ll5jr8hi/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			increase
+">27</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">26</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20130107/7758_7759.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>My Life (feat. Eminem &amp; Adam Levine)</strong>
+						50 Cent
+					</div>
+					<a data-url="/song/7758/905xlvnx/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 		new
+"></span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">27</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121119/5807_5808.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>One Day / Reckoning Song (Wankelmut Remix)</strong>
+						Asaf Avidan 
+					</div>
+					<a data-url="/song/5807/7c9txxbi/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">24</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">28</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121016/4357_4358.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Turn Up the Love (feat. Cover Drive)</strong>
+						Far East Movement
+					</div>
+					<a data-url="/song/4357/fz2llaai/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">26</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">29</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121112/5385_5386.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Candy</strong>
+						Robbie Williams
+					</div>
+					<a data-url="/song/5385/84ch4rdw/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">28</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+			<li class="clearfix">
+				<span class="number">30</span>
+				<div class="info">
+					<div class="clearfix">
+						<img src="http://rp.dygrd.com/image/sq?url=vgn/img/20121105/5009_5010.jpg&amp;w=48" alt=""  width="48px" height="48px"/>
+						<strong>Give Your Heart a Break</strong>
+						Demi Lovato
+					</div>
+					<a data-url="/song/5009/8ooaq75q/chart30/a/b" class="listen pointer viewSong">Dinle</a>
+					
+					                                 
+				</div>
+				<div class="sprite-ir rating">
+					
+				</div>
+				<span class="sprite 			decrease
+">29</span>
+				<div class="sprite share-this" style="visibility:hidden;">
+					<a href=""></a>
+					<div class="share">
+						<ul class="horizontal fright clearfix">
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-fb.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-google.png"></li>
+							<li><img src="http://rs.dygrd.com/img/virginradio/share-tw.png"></li>
+						</ul>
+					</div>
+				</div>
+			</li> 
+</ul>		</div>
+
+	</div> <!-- .chart -->
+	</section>
+	<aside>
+<div style="background-color:Black;" class="fb-like-box" data-href="https://www.facebook.com/VirginRadioTurkiye"
+	data-width="300" data-height="1500" data-show-faces="false" data-border-color="Black"
+	data-stream="true" data-header="false"  data-colorscheme="dark" >
+</div>	</aside>
+
+	<div id="songDetailContainer" style="display:none; padding:10px;"></div>
+
+</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- #container -->
+
+	</div>
+	<!-- #wrapper -->
+
+	<footer>
+<div class="bottom">   
+	<div class="w900"> 	
+		<ul class="horizontal fleft left-col">
+			<li><a class="pointer" href="/yayinakisi" >Yayın Akışı</a></li>
+			<li><a class="frekansdetay pointer">Frekanslar</a></li>
+			<li><a class="iletisimdetay pointer">İletişim</a></li>
+			<li><a class="kunyedetay pointer">Künye</a></li>
+			<li>
+				<a class="radyolar" href="">DYG Radyoları</a>
+				<div class="radyo-listesi lightbox">
+					<div class="title">
+						<h3>RADYOLAR</h3>
+						<a href="" class="close">x</a>
+						<ul class="horizontal clearfix">
+							<li><a href="http://www.ntvradyo.com.tr" target="_blank"><img src="http://rs.dygrd.com/img/logolar/NtvRadyo.png"></a></li>
+							<li><a href="http://www.kralfm.com.tr" target="_blank"><img src="http://rs.dygrd.com/img/logolar/KralFm.png"></a></li>
+							<li><a href="http://www.ntvsporradyo.com" target="_blank"><img src="http://rs.dygrd.com/img/logolar/NtvSporRadyo.png"></a></li>
+							<li><a href="http://www.radyovoyage.com" target="_blank"><img src="http://rs.dygrd.com/img/logolar/RadyoVoyage.png"></a></li>
+							<li><a href="http://www.capitalradio.com.tr" target="_blank"><img src="http://rs.dygrd.com/img/logolar/CapitalRadio.png"></a></li>
+							<li><a href="http://www.radioeksen.com" target="_blank"><img src="http://rs.dygrd.com/img/logolar/RadioEksen.png"></a></li>							
+						</ul>
+					</div>
+				</div>
+			</li>
+		</ul>
+			
+		<ul class="horizontal fright right-col">
+			<li style="display:none;"><a href="http://itunes.apple.com/us/app/sipru-rd/id323362544?mt=8" target="_blank" class="ico-sipru">Virgin Radio<br>iPhone'da</a></li>
+			<li><a href="http://www.facebook.com/VirginRadioTurkiye" target="_blank" class="ico-fb">Facebook<br>103,545</a></li>
+			<li><a href="http://twitter.com/virginradiotr" target="_blank" class="ico-tw">Twitter<br>22,605</a></li>
+		</ul> 
+	</div>
+</div>
+
+<div class="iletisimdetaybox lightbox" style="display:none;">
+	<div class="lb-content clearfix">
+		<form class="formIletisim">
+			<ul class="contact-form">
+				<li>
+					<input name="adSoyad" class="adSoyad userInput" type="text" value="Adınız Soyadınız ( Zorunlu )" maxlength="100" style="color:#EFDD6F">
+				</li>
+				<li>
+					<input name="eposta" class="eposta userInput" type="text" value="E-posta Adresiniz ( Zorunlu )" maxlength="100" style="color:#EFDD6F">
+				</li>
+				<li>
+					<input name="age" type="text" class="age short userInput" value="Yaşınız" maxlength="2">
+					<input name="meslek" type="text" class="meslek medium userInput" value="Mesleğiniz" maxlength="50">                	
+				</li>
+				<li>
+					<input name="sehir" class="sehir userInput" type="text" value="Yaşadığınız Şehir" maxlength="50">
+				</li>
+				<li>
+					<textarea name="mesaj" class="mesaj userInput" maxlength="2000" style="color:#EFDD6F">Mesajınız ( Zorunlu )</textarea>
+				</li>
+				<li>
+					<input type="submit" class="sendbutton submitMessage" value="Gönder">
+				</li>
+			</ul>
+		</form>
+		<div class="fleft font15">
+			<a class="red-text" href="mailto:info@virginradioturkiye.com">info@virginradioturkiye.com</a><br><br>
+            <span class="red-text">İstek Hattı;</span><br>
+			0212 335 48 88<br><br>                                                                                                             
+                                                                                                             
+            <span class="red-text">Reklam Yayınları İletişimi için</span><br>
+			radyosatis@ntv.com.tr<br><br>
+            
+            <span class="red-text">Radyo Yayınları ve Programlarından Sorumlu Müdür</span><br> 
+            Sedef Dinçmen Köni<br>
+            Tel:+90 (212) 335 00 00<br><br> 
+                                       
+            <span class="red-text">Radyo Ve Televizyon Teknik Yayınlarından Sorumlu Müdür</span><br> 
+            Levent USLU<br>
+            Tel: +90 (212) 335 00 00<br><br>
+                                                   
+            <span class="red-text">Virgin Radio Genel Yayın Yönetmeni</span><br> 
+            Koray HATİPOĞLU<br>
+            Koray.hatipoglu@ntv.com.tr<br>
+            Tel: +90 (212) 335 00 00<br><br>
+                                   			
+            <span class="red-text">İçerik Sağlayıcı</span><br>
+            Doğuş Yayın Grubu A.Ş.<br>
+            Ahi Evran Cad. No:4 34398<br> 
+            Maslak - ŞİŞLİ / İSTANBUL <br>
+            0212 335 0000 – <a class="red-text" href="operasyon@ntv.com.tr">operasyon@ntv.com.tr</a><br><br>
+
+            <span class="red-text">Erişim ve Yer Sağlayıcı</span><br>
+            Doruk İletişim ve Otomasyon Sanayi ve Ticaret A.Ş.<br>
+            Dikilitaş Mahallesi, Eren Sokak No: 26 <br>
+            34349 Beşiktaş - İstanbul <br><br>
+                                                   
+            <span class="red-text">Ticaret Sicil Numarası</span><br>
+            429633
+        </div>
+	</div>
+</div><div class="frekansdetaybox lightbox" style="display:none;">
+	<div class="lb-content no-pad clearfix" >
+		<ul class="frekansliste">
+			<li>
+				<span class="fleft">İSTANBUL</span>
+				<span class="fright red-text">101</span>
+			</li>
+			<li>
+				<span class="fleft">ANKARA</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">İZMİR</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">İZMİR ÇEŞME</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">ADANA</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">ANTALYA</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">BOLU</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">BOLU GEREDE</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">ESKİŞEHİR</span>
+				<span class="fright red-text">99.8</span>
+			</li>
+			<li>
+				<span class="fleft">KONYA</span>
+				<span class="fright red-text">105.7</span>
+			</li>
+			<li>
+				<span class="fleft">KAYSERİ</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">MERSİN</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">MUĞLA BODRUM</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">MUĞLA MARMARİS</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">MUĞLA FETHİYE</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+			<li>
+				<span class="fleft">TRABZON</span>
+				<span class="fright red-text">99.5</span>
+			</li>
+		</ul>
+	</div>        
+</div><div class="kunyedetaybox lightbox" style="display:none;">
+	<div class="lb-content clearfix">		
+		<div class="font15" style="margin-left: 90px;">
+            
+            <span class="red-text">İzleyici Temsilcisi</span><br> 
+            Siren Uludağ<br>
+            Fax: +90 (212) 335 00 88<br>
+            Tel: +90 (212) 335 00 00<br><br>
+            
+            
+            <span class="red-text">Uydu Bilgileri;</span><br>
+			Türksat 3A<br>
+			11054 frekans Yatay polarizasyon <br>
+			30000 symbol oranı <br>
+            Fhc 5/6<br><br>
+		</div>
+	</div>
+</div>	</footer>
+	<div class="overlay"></div>
+
+</body>
+<!--[if gt IE 8]><!--></html><!--<![endif]-->

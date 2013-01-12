@@ -13,13 +13,13 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -169,7 +169,16 @@ public class SongListActivity extends SherlockFragmentActivity{
 	}
 
 	private void playList() {
-		player.play(viewPager.getCurrentItem(), 0);
+		int index = viewPager.getCurrentItem();
+		ArrayList<Song> list = player.getSongList(index);
+		String youtubeURL = list.get(0).youtubeURL;
+		if (youtubeURL != null) {
+			startActivity(new Intent(Intent.ACTION_VIEW, 
+		              Uri.parse(youtubeURL)));
+		}
+		else {
+			player.play(viewPager.getCurrentItem(), 0);					
+		}
 	}
 
 	private void updateSongList(final int listIndex){
@@ -239,6 +248,7 @@ public class SongListActivity extends SherlockFragmentActivity{
 		if (title.equals(getString(R.string.play))) {
 			if (player.isPlaying()) {
 				stopPlayList();
+				setSupportProgressBarIndeterminateVisibility(false);
 				item.setIcon(android.R.drawable.ic_media_play);
 			}
 			else {
@@ -323,7 +333,14 @@ public class SongListActivity extends SherlockFragmentActivity{
 
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int position, long id) {
-					player.play(listIndex, position);					
+					Song song = fragmentSongList.get(position);
+					if (song.youtubeURL != null){
+						startActivity(new Intent(Intent.ACTION_VIEW, 
+					              Uri.parse(song.youtubeURL)));
+					}
+					else {
+						player.play(listIndex, position);					
+					}
 				}
 			});
 			loadingBar = (ProgressBar) v.findViewById(R.id.loading);

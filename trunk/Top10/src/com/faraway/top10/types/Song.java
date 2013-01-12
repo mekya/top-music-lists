@@ -7,4 +7,6 @@ public class Song implements Serializable{
 	public String singer;
 	public String mp3Url;
 	public String fileFullPath;
+	public String youtubeURL;
+	
 }

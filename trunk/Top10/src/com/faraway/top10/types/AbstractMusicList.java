@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -18,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import android.content.Context;
 
@@ -169,5 +173,42 @@ public abstract class AbstractMusicList {
 	public abstract String getCacheFileName();
 
 	public abstract String getMusicListName();
+	
+	protected String getContentFromURL(String urlString) {
+		String content = new String();
+		
+		try {
+			URL url = new URL(urlString);
+			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setReadTimeout(10000);
+			urlConnection.setConnectTimeout(15000);
+			urlConnection.setRequestMethod("GET");
+			urlConnection.setDoInput(true);			
+			urlConnection.connect();
+
+			InputStream in = urlConnection.getInputStream(); //getAssets().open("kralfmtop10.htm");
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in,Charset.forName("ISO-8859-9")));
+
+			
+			String line;
+			while ((line = reader.readLine()) != null){
+				content = content.concat(line);
+			}
+			//Indirilen html dosyasi parse edilerek icindeki sarkilar bulunuyor.
+			//songList = parse(content);
+			in.close();
+			
+						
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return content;
+	}
 
 }

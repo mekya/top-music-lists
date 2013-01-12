@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -18,13 +19,14 @@ import android.widget.Toast;
 
 import com.faraway.top10.lists.KralFMTop10List;
 import com.faraway.top10.lists.PowerHitsTop10;
+import com.faraway.top10.lists.VirginRadioTop10List;
 import com.faraway.top10.types.AbstractMusicList;
 import com.faraway.top10.types.Song;
 
 public class PlayerService extends Service implements OnCompletionListener, OnPreparedListener{
 
 
-	
+
 	private MediaPlayer mediaPlayer = null;
 	private int playingSongIndex = -1;
 	public 	static final String SONG_INDEX = "Player.SONG_INDEX";
@@ -44,6 +46,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 
 	private ArrayList<AbstractMusicList> musicLists = new ArrayList<AbstractMusicList>();
 	private int activeMusicList = 0;
+	private Thread downloadThread;
 
 	public class PSBinder extends Binder {
 		public PlayerService getService(){
@@ -52,8 +55,9 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 	}
 	@Override
 	public void onCreate() {		
-		musicLists.add(new KralFMTop10List(getApplicationContext()));
 		musicLists.add(new PowerHitsTop10(getApplicationContext()));
+		musicLists.add(new VirginRadioTop10List(getApplicationContext()));
+		musicLists.add(new KralFMTop10List(getApplicationContext()));
 		super.onCreate();
 	}
 
@@ -140,9 +144,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 			mediaPlayer.setOnPreparedListener(this);
 			mediaPlayer.setOnCompletionListener(this);
 
-			mediaPlayerIsActive = true;
-
-			this.playingSongIndex = songIndex;
+		//	this.playingSongIndex = songIndex;
 			notify(song.singer, song.name, getString(R.string.loading));
 			//send broadcast with playingSongIndex and songName 
 			Intent i = new Intent(PlayerService.PLAYING_SONG_CHANGED);
@@ -166,37 +168,48 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 		if (getActiveList().getSongList().size() > songIndex) {
 
 			final Song song = getActiveList().getSongList().get(songIndex);
-
+			this.playingSongIndex = songIndex;
 			try {
 				/*
 				 * below "if" is for songs that doesnt have mp3 url.
 				 * It skips that song to next one
 				 */
-				if (song == null || song.mp3Url == null) {
-
-					Toast.makeText(getApplicationContext(), 
-							getString(R.string.problem_in_song), Toast.LENGTH_LONG).show();
-					int nextSong = songIndex + 1;
-					prepare(nextSong);
-					return;
+				if (song == null) {
+					if (song.mp3Url == null) {
+						Toast.makeText(getApplicationContext(), 
+								getString(R.string.problem_in_song), Toast.LENGTH_LONG).show();
+						int nextSong = songIndex + 1;
+						prepare(nextSong);
+						return;
+					}
 				}
 				File f = new File(song.fileFullPath);
+				mediaPlayerIsActive = true;
 				if (f.exists()) {
 					prepareMediaPlayer(songIndex, song);
 				}
 				else {
 					
+					Intent i = new Intent(PlayerService.PLAYING_SONG_CHANGED);
+					i.putExtra(SONG_INDEX, songIndex);
+					i.putExtra(LIST_INDEX, activeMusicList);
+					i.putExtra(SONG_NAME , song.name);
+					sendBroadcast(i);
+
 					sendBroadcast(new Intent(PlayerService.DOWNLOAD_STARTED));
 					
-					new Thread() {
+					downloadThread = new Thread() {
 
 						public void run() {
 							getActiveList().downloadFile(song.mp3Url, song.fileFullPath);
 							sendBroadcast(new Intent(PlayerService.DOWNLOAD_FINISHED));
-							prepareMediaPlayer(songIndex, song);
+							if (playingSongIndex != -1) {
+								prepareMediaPlayer(songIndex, song);
+							}
 
 						};
-					}.start();
+					};
+					downloadThread.start();
 				}
 
 			} catch (IllegalArgumentException e) {
@@ -230,6 +243,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 	public void stop() {
 		this.playingSongIndex = -1;
 		this.activeMusicList = -1;
+		
 		stopForeground(true);
 		mediaPlayerIsActive = false;
 		if (mediaPlayer != null) 
@@ -243,7 +257,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 					tempMediaPlayer = null;
 				};
 			}.start();
-		}
+		}		
 	}
 
 	public void play(final int listIndex, final int position) {

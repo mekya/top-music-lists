@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
-import android.net.Uri;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -42,6 +41,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 	public static final String LIST_INDEX = "Player.LIST_INDEX";
 	public static final String DOWNLOAD_STARTED = "PlayerService.DOWNLOAD_STARTED";
 	public static final String DOWNLOAD_FINISHED = "PlayerService.DOWNLOAD_FINISHED";
+	public static final String SINGER_NAME = "PlayerService.SINGER_NAME";
 
 
 	private ArrayList<AbstractMusicList> musicLists = new ArrayList<AbstractMusicList>();
@@ -122,12 +122,12 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 		startForeground(NOTIFICATION_ID, notification);
 	}
 
-	public String getPlayingSongName(){
-		String name = null;
+	public Song getPlayingSong(){
+		Song song = null;
 		if (this.playingSongIndex > -1) {
-			name = getActiveList().getSongList().get(this.playingSongIndex).name;
+			song = getActiveList().getSongList().get(this.playingSongIndex);
 		}
-		return name;
+		return song;
 	}
 
 	/**
@@ -150,7 +150,8 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 			Intent i = new Intent(PlayerService.PLAYING_SONG_CHANGED);
 			i.putExtra(SONG_INDEX, this.playingSongIndex);
 			i.putExtra(LIST_INDEX, activeMusicList);
-			i.putExtra(SONG_NAME , getActiveList().getSongList().get(this.playingSongIndex).name);
+			i.putExtra(SONG_NAME , song.name);
+			i.putExtra(SINGER_NAME, song.singer);
 			sendBroadcast(i);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -194,6 +195,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 					i.putExtra(SONG_INDEX, songIndex);
 					i.putExtra(LIST_INDEX, activeMusicList);
 					i.putExtra(SONG_NAME , song.name);
+					i.putExtra(SINGER_NAME, song.singer);
 					sendBroadcast(i);
 
 					sendBroadcast(new Intent(PlayerService.DOWNLOAD_STARTED));

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
        />
-
+<!-- 
     <ListView
         android:id="@+id/songList"
         android:layout_width="fill_parent"
@@ -19,5 +19,18 @@
         android:background="@color/list_background"
         android:cacheColorHint="#00000000"
         android:visibility="gone" />
+ -->
+     
+   <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/songList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="#00000000"
+        android:divider="#19000000"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true" />
 
 </FrameLayout>

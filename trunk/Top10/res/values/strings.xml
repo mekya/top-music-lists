@@ -6,7 +6,6 @@
 	<string name="passive">Passive</string>
 	<string name="play">Oynat</string>
 	<string name="about">Hakkında</string>
-	<string name="refresh">Yenile</string>
 	<string name="loading">Yükleniyor...</string>
 	<string name="ok">Tamam</string>
 	<string name="unable_to_get_list">Şarkı listesi alınamıyor. Internet bağlantısında veya kralfm.com.tr de bir sıkıntı olabilir.</string>

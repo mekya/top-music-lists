@@ -22,31 +22,22 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
-import com.faraway.top10.types.AbstractMusicList;
+import com.faraway.top10.adapters.SongAdapter;
+import com.faraway.top10.fragments.SongListFragment;
 import com.faraway.top10.types.Song;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public class SongListActivity extends SherlockFragmentActivity{
 
 	protected int playingSongIndex = -1;
-	private ArrayList<Song> songList;
-	private PlayerService player;
-	private MenuItem refreshMenuItem;
+	private static PlayerService player;
 	private MenuItem playMenuItem;
-	private ArrayList<AbstractMusicList> musicList;
 	private ViewPager viewPager;
 	private ViewPagerAdapter viewPagerAdapter;
 
@@ -62,6 +53,12 @@ public class SongListActivity extends SherlockFragmentActivity{
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			player = (PlayerService)((PlayerService.PSBinder)service).getService();
 			viewPager.setAdapter(viewPagerAdapter);
+			if (player.isPlaying()) {
+				Song song = player.getPlayingSong();
+				int index = player.getPlayingSongIndex();
+				index++;
+				getSupportActionBar().setSubtitle(index + "." + song.name + "-" + song.singer);
+			}
 		}
 	};
 
@@ -79,34 +76,24 @@ public class SongListActivity extends SherlockFragmentActivity{
 			}	
 			else if (action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED))
 			{
-				// stop the player if phone state has changed.
 				player.stop();
 			}
 			else {
 				int listIndex = intent.getExtras().getInt(PlayerService.LIST_INDEX);
 				if (listIndex != -1) {
-
-					ListView lv = getSongListView(listIndex);
-					int childCount = lv.getChildCount();
-					if (intent.getExtras().getInt(PlayerService.SONG_INDEX) == -1)
-					{
+					int songIndex = intent.getExtras().getInt(PlayerService.SONG_INDEX);
+					if (songIndex == -1){
 						playMenuItem.setIcon(android.R.drawable.ic_media_play);
-						for (int i = 0; i < childCount; i++) {
-							lv.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_background));
-						}
+						getSupportActionBar().setSubtitle(null);
+
 					}
 					else {
 						playMenuItem.setIcon(android.R.drawable.ic_media_pause);
-						for (int i = 0; i < childCount; i++) {
-							TextView songTextView = (TextView)lv.getChildAt(i).findViewById(R.id.song);
-							String songName = intent.getExtras().getString(PlayerService.SONG_NAME);
-							if (songName.equals(songTextView.getText().toString())) {
-								lv.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.active_item_background));
-							}
-							else {
-								lv.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_background));
-							}
-						}
+						String songName = intent.getExtras().getString(PlayerService.SONG_NAME);
+						String singer = intent.getExtras().getString(PlayerService.SINGER_NAME);
+						songIndex++;
+						getSupportActionBar().setSubtitle(songIndex + "." + songName + "-" + singer);
+
 					}
 
 				}
@@ -120,7 +107,6 @@ public class SongListActivity extends SherlockFragmentActivity{
 		setTheme(com.actionbarsherlock.R.style.Sherlock___Theme_DarkActionBar);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.viewpager);
 		setSupportProgressBarIndeterminateVisibility(false);
 
@@ -140,8 +126,7 @@ public class SongListActivity extends SherlockFragmentActivity{
 	}
 
 
-
-	public ListView getSongListView(int index) {
+	public PullToRefreshListView getSongListView(int index) {
 		return ((SongListFragment)viewPagerAdapter.getItem(index)).getListView();
 	}
 
@@ -159,7 +144,7 @@ public class SongListActivity extends SherlockFragmentActivity{
 				player.stop();
 			}}.start();
 
-			ListView lv = getSongListView(player.getActiveListIndex());
+			PullToRefreshListView lv = getSongListView(player.getActiveListIndex());
 			if (lv != null) {
 				int childCount = lv.getChildCount();
 				for (int i = 0; i < childCount; i++) {
@@ -174,48 +159,13 @@ public class SongListActivity extends SherlockFragmentActivity{
 		String youtubeURL = list.get(0).youtubeURL;
 		if (youtubeURL != null) {
 			startActivity(new Intent(Intent.ACTION_VIEW, 
-		              Uri.parse(youtubeURL)));
+					Uri.parse(youtubeURL)));
 		}
 		else {
 			player.play(viewPager.getCurrentItem(), 0);					
 		}
 	}
 
-	private void updateSongList(final int listIndex){
-		if (songList != null && songList.size() >= 0) {
-			final Song[] songs = new Song[songList.size()];
-			for (int i = 0; i < songList.size(); i++) {
-				songs[i]  = songList.get(i);
-			}
-
-			runOnUiThread(new Runnable() {
-				public void run() {
-					getSongListView(listIndex).setAdapter(new SongAdapter(getApplicationContext(), listIndex, songs));
-					getSongListView(listIndex).setVisibility(View.VISIBLE);
-					setSupportProgressBarIndeterminateVisibility(false);
-					refreshMenuItem.setEnabled(true);					
-				}
-			});
-		}
-		else {
-			runOnUiThread(new Runnable() {				
-				public void run() {
-					Toast.makeText(SongListActivity.this, getString(R.string.unable_to_get_list), Toast.LENGTH_LONG).show();
-				}
-			});
-		}		
-	}
-
-	public void refreshList() 
-	{
-		new Thread(){
-			public void run() {
-				int currentIndex = viewPager.getCurrentItem();
-				songList = player.refreshSongList(currentIndex);
-				updateSongList(currentIndex);
-			}
-		}.start();
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
@@ -228,11 +178,8 @@ public class SongListActivity extends SherlockFragmentActivity{
 			playMenuItem.setIcon(android.R.drawable.ic_media_play);
 		}
 
-		playMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
-		refreshMenuItem = menu.add(getString(R.string.refresh));
-		refreshMenuItem.setIcon(android.R.drawable.ic_popup_sync);
-		refreshMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		playMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
 		menu.add(getString(R.string.about))
 		.setIcon(android.R.drawable.ic_dialog_info)
@@ -250,16 +197,12 @@ public class SongListActivity extends SherlockFragmentActivity{
 				stopPlayList();
 				setSupportProgressBarIndeterminateVisibility(false);
 				item.setIcon(android.R.drawable.ic_media_play);
+				getSupportActionBar().setSubtitle(null);
 			}
 			else {
 				playList();
 				item.setIcon(android.R.drawable.ic_media_pause);
 			}
-		}
-		else if (title.equals(getString(R.string.refresh))) {
-			setSupportProgressBarIndeterminateVisibility(true);
-			refreshList();
-			item.setEnabled(false);
 		}
 		else if (title.equals(getString(R.string.about))) {
 			LayoutInflater li = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -280,6 +223,12 @@ public class SongListActivity extends SherlockFragmentActivity{
 		return super.onOptionsItemSelected(item);
 	}
 
+	public PlayerService getPlayer(){
+		return player;
+	}
+
+
+
 
 	public class ViewPagerAdapter extends FragmentStatePagerAdapter 
 	{
@@ -288,8 +237,6 @@ public class SongListActivity extends SherlockFragmentActivity{
 		public ViewPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
-
-
 
 		@Override
 		public Fragment getItem(int index) 
@@ -311,108 +258,5 @@ public class SongListActivity extends SherlockFragmentActivity{
 		}
 	}
 
-	public class SongListFragment extends Fragment {
-		int listIndex;
-		private ListView lv;
-		private ProgressBar loadingBar;
-		private ArrayList<Song> fragmentSongList;
 
-		public SongListFragment(int index) {
-			listIndex = index;
-		}
-
-		public ListView getListView(){
-			return lv;
-		}
-
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View v = inflater.inflate(R.layout.main, container, false);
-			lv = (ListView)v.findViewById(R.id.songList);
-			lv.setOnItemClickListener(new OnItemClickListener() {
-
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int position, long id) {
-					Song song = fragmentSongList.get(position);
-					if (song.youtubeURL != null){
-						startActivity(new Intent(Intent.ACTION_VIEW, 
-					              Uri.parse(song.youtubeURL)));
-					}
-					else {
-						player.play(listIndex, position);					
-					}
-				}
-			});
-			loadingBar = (ProgressBar) v.findViewById(R.id.loading);
-			return v;
-		}
-
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState) {
-			super.onActivityCreated(savedInstanceState);
-
-			new Thread(){
-				public void run() {
-					fragmentSongList = player.getSongList(listIndex);
-
-					if (fragmentSongList != null && fragmentSongList.size() >= 0) {
-						final Song[] songs = new Song[fragmentSongList.size()];
-						for (int i = 0; i < fragmentSongList.size(); i++) {
-							songs[i]  = fragmentSongList.get(i);
-						}
-
-						runOnUiThread(new Runnable() {
-							public void run() {
-								lv.setAdapter(new SongAdapter(getApplicationContext(), listIndex, songs));
-								loadingBar.setVisibility(View.GONE);
-								lv.setVisibility(View.VISIBLE);
-								setSupportProgressBarIndeterminateVisibility(false);
-								refreshMenuItem.setEnabled(true);					
-							}
-						});
-					}
-					else {
-						runOnUiThread(new Runnable() {				
-							public void run() {
-								Toast.makeText(SongListActivity.this, getString(R.string.unable_to_get_list), Toast.LENGTH_LONG).show();
-							}
-						});
-					}
-				};
-			}.start();
-		}
-	}
-
-	private class SongAdapter extends ArrayAdapter<Song> {
-
-		private Song[] songs;
-		private int listIndex;
-
-		public SongAdapter(Context context, int listIndex, Song[] objects) {
-			super(context, R.layout.list, objects);
-			this.songs = objects;		
-			this.listIndex = listIndex;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			//to increase performance view holder can be used.
-			convertView = SongListActivity.this.getLayoutInflater().inflate(R.layout.list, null);
-			if (player != null 
-					&& player.isPlaying() == true 
-					&& listIndex == player.getActiveListIndex()
-					&& position == player.getPlayingSongIndex()) 
-			{
-				convertView.setBackgroundColor(getResources().getColor(R.color.active_item_background));
-			}
-			TextView singer = (TextView)convertView.findViewById(R.id.singer);
-			singer.setText(songs[position].singer);
-			TextView song = (TextView) convertView.findViewById(R.id.song);
-			song.setText(songs[position].name);
-			position++;
-			TextView order_num = (TextView)convertView.findViewById(R.id.order_num);
-			order_num.setText(String.valueOf(position));
-			return convertView;
-		}
-	}
 }

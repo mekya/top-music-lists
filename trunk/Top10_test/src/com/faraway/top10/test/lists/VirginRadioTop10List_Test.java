@@ -37,6 +37,17 @@ public class VirginRadioTop10List_Test extends InstrumentationTestCase{
 	public void testGetMusicListName(){
 		assertNotNull(top10List.getMusicListName());
 	}
+	
+	public void testRefreshSongList(){
+		
+		ArrayList<Song> list = top10List.refreshSongList();
+		assertEquals(list.size(), 10);
+		
+		//test again
+		list = top10List.refreshSongList();
+		
+		assertEquals(list.size(), 10);
+	}
 
 	
 	

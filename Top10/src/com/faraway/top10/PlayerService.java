@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import com.faraway.top10.lists.RockFMTop10;
 import com.faraway.top10.lists.KralFMTop10List;
 import com.faraway.top10.lists.PowerHitsTop10;
 import com.faraway.top10.lists.VirginRadioTop10List;
@@ -56,6 +57,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 	@Override
 	public void onCreate() {		
 		musicLists.add(new PowerHitsTop10(getApplicationContext()));
+		musicLists.add(new RockFMTop10(getApplicationContext()));
 		musicLists.add(new VirginRadioTop10List(getApplicationContext()));
 		musicLists.add(new KralFMTop10List(getApplicationContext()));
 		super.onCreate();

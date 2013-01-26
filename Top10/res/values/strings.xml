@@ -8,10 +8,14 @@
 	<string name="about">Hakkında</string>
 	<string name="loading">Yükleniyor...</string>
 	<string name="ok">Tamam</string>
+	<string name="lists_updated">Listeler güncellendi.</string>
 	<string name="unable_to_get_list">Şarkı listesi alınamıyor. Internet bağlantısında veya kralfm.com.tr de bir sıkıntı olabilir.</string>
 	<string name="problem_in_song">Bu şarkının bilgilerinde bir problem var. Şarkı listesini yenilemek çözüm olabilir.</string>
-	<string name="info">Uygulama listedeki şarkıları tamponlayarak çalar. İnternet bağlantınız yok ise veya yavaş ise problem yaşayabilirsiniz. </string>
-	<string name="info2">Listeler ilgili web sitelerinden alınmaktadır. Web sitelerinin içeriği değişirse uygulama çalışmayabilir.</string>
-	<string name="info3">Not-1: Liste genellikle haftalık güncelleniyor. Bazen web sitelerinde şarkıların mp3\'ünü bulunmuyor. Haliyle o mp3 de çalınamıyor.</string>
-	<string name="info4">Not-2: Bu açık kaynak kodlu hobi amaçlı geliştirilmiş bir uygulamadır. http://code.google.com/p/top-music-lists/</string>
+	<string name="info">Uygulama ilgili web sitelerinden listeleri çekerek şarkı örneklerini çalar. İnternet bağlantınız yok ise veya yavaş ise problem yaşayabilirsiniz. </string>
+	<string name="info2"> </string>
+	<string name="info3">Not-1: Web sitelerinin içeriği değişirse uygulama çalışmayabilir.</string>
+	<string name="info4">Not-2: Bu açık kaynak kodlu hobi amaçlı geliştirilmiş bir projedir. Kaynak kodlara http://code.google.com/p/top-music-lists/\'dan ulaşabilirsiniz.</string>
+	<string name="contributors_label">Destek Verenler</string>
+	<string name="contributors">Burhan Uğur\nFatih Yakut\nOrhun Mert Şimşek\nBurak Aydın\nElif Dikbayır\nZeynep Nur Dilek\nA. Oğuz Mermerkaya</string>
+	
 </resources>

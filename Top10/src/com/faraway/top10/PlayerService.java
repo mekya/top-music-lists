@@ -3,10 +3,14 @@ package com.faraway.top10;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -16,9 +20,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import com.faraway.top10.lists.RockFMTop10;
 import com.faraway.top10.lists.KralFMTop10List;
 import com.faraway.top10.lists.PowerHitsTop10;
+import com.faraway.top10.lists.RockFMTop10;
 import com.faraway.top10.lists.VirginRadioTop10List;
 import com.faraway.top10.types.AbstractMusicList;
 import com.faraway.top10.types.Song;
@@ -43,6 +47,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 	public static final String DOWNLOAD_STARTED = "PlayerService.DOWNLOAD_STARTED";
 	public static final String DOWNLOAD_FINISHED = "PlayerService.DOWNLOAD_FINISHED";
 	public static final String SINGER_NAME = "PlayerService.SINGER_NAME";
+	private static final String UPDATE_LISTS = "PlayerService.UPDATE_SONGS";
 
 
 	private ArrayList<AbstractMusicList> musicLists = new ArrayList<AbstractMusicList>();
@@ -60,10 +65,67 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 		musicLists.add(new RockFMTop10(getApplicationContext()));
 		musicLists.add(new VirginRadioTop10List(getApplicationContext()));
 		musicLists.add(new KralFMTop10List(getApplicationContext()));
+		
+		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		Calendar timeOff = Calendar.getInstance();
+		int days = Calendar.MONDAY + (7 - timeOff.get(Calendar.DAY_OF_WEEK)); // how many days until Sunday
+		timeOff.add(Calendar.DATE, days);
+		timeOff.set(Calendar.HOUR, 8);
+		timeOff.set(Calendar.MINUTE, 0);
+		timeOff.set(Calendar.SECOND, 0);
+		
+		int interval = 1000 * 60  * 60 * 24 * 7;
+		Intent i = new Intent(getApplicationContext(), PlayerService.class);
+		i.setAction(UPDATE_LISTS);
+		PendingIntent pid = PendingIntent.getService(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+		alarmManager.setRepeating(AlarmManager.RTC, timeOff.getTimeInMillis(), interval, pid);
 		super.onCreate();
 	}
+	
+	
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		String action = intent.getAction();
+		if (action != null && action.equals(UPDATE_LISTS)) {
+			
+			new Thread() {
+				public void run() {
+					int size = musicLists.size();
+					for (int i = 0; i < size; i++) {
+						ArrayList<Song> oldList = musicLists.get(i).getSongList();
+						ArrayList<Song> newList = musicLists.get(i).refreshSongList();
+						if (isSongListEquals(oldList, newList) == false) {
+							Intent intent = new Intent(PlayerService.this, SongListActivity.class);
+							PendingIntent pendingIntent = PendingIntent.getActivity(PlayerService.this, 0, intent, 0);
 
+							Notification notification = new Notification(R.drawable.icon, getString(R.string.app_name), System.currentTimeMillis());
+							notification.setLatestEventInfo(getApplicationContext(), getString(R.string.lists_updated), "", pendingIntent);
 
+							NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+							manager.notify(0, notification);
+							break;
+						}
+					}
+				};
+			}.start();
+			
+		}
+		return super.onStartCommand(intent, flags, startId);
+	}
+
+	public boolean isSongListEquals(ArrayList<Song> list1, ArrayList<Song> list2){
+		if (list1.size() != list2.size()) {
+			return false;
+		}
+		for(int i = 0; i < list1.size(); i++) {
+			if(!list1.get(i).equals(list2.get(i)))
+				return false;
+		}
+		
+		return true;
+	}
+	
+	
 	private AbstractMusicList getActiveList() {
 		return this.musicLists.get(activeMusicList);
 	}
@@ -123,6 +185,8 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 
 		startForeground(NOTIFICATION_ID, notification);
 	}
+	
+	
 
 	public Song getPlayingSong(){
 		Song song = null;

@@ -60,22 +60,24 @@ public class RockFMTop10 extends AbstractMusicList  {
 		for (int i = 0; i < 10; i++) {
 			
 			Song song = new Song();
-			//Elements esinger = mp3List.get(i).getElementsByClass("h3");
-			//String strsinger = esinger.html();
+			Elements esinger = mp3List.get(i).getElementsByClass("h3");
+			String strsinger = esinger.html();
 			
-			//Elements ename = mp3List.get(i).getElementsByTag("strong");
-			//String strname = ename.html();
+			Elements ename = mp3List.get(i).getElementsByTag("strong");
+			String strname = ename.html();
 			
 			
-			//song.singer = getCapitilize(StringEscapeUtils.unescapeHtml(strsinger.substring(strsinger.indexOf(">")+1, strsinger.indexOf("</span>"))), new java.util.Locale("TR_tr"));
-			//song.name =   getCapitilize(StringEscapeUtils.unescapeHtml(strname.substring(strsinger.indexOf(">")-1, strname.indexOf("</span>"))), new java.util.Locale("TR_tr"));
-			
+			song.singer = getCapitilize(StringEscapeUtils.unescapeHtml(strsinger.substring(strsinger.indexOf(">")+1, strsinger.indexOf("</span>"))), new java.util.Locale("TR_tr"));
+			song.name =   getCapitilize(StringEscapeUtils.unescapeHtml(strname.substring(strsinger.indexOf(">")-1, strname.indexOf("</span>"))), new java.util.Locale("TR_tr"));
+			/*
 				song.singer = mp3List.get(i).getElementsByClass("h3").text();
-				song.singer = getCapitilize(song.singer, Locale.GERMAN);
+				song.singer = getCapitilize(song.singer, Locale.ENGLISH);
 				
 				song.name = mp3List.get(i).getElementsByTag("strong").text();
-				song.name = getCapitilize(song.name, Locale.GERMAN);
-				
+				song.name = getCapitilize(song.name, Locale.ENGLISH);
+			
+			*/
+			
 				String mp3Url = mp3List.get(i).attr("href");
 				
 				if (mp3Url != null) {

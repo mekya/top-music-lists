@@ -65,7 +65,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 		musicLists.add(new RockFMTop10(getApplicationContext()));
 		musicLists.add(new VirginRadioTop10List(getApplicationContext()));
 		musicLists.add(new KralFMTop10List(getApplicationContext()));
-		
+
 		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		Calendar timeOff = Calendar.getInstance();
 		int days = Calendar.MONDAY + (7 - timeOff.get(Calendar.DAY_OF_WEEK)); // how many days until Sunday
@@ -73,7 +73,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 		timeOff.set(Calendar.HOUR, 8);
 		timeOff.set(Calendar.MINUTE, 0);
 		timeOff.set(Calendar.SECOND, 0);
-		
+
 		int interval = 1000 * 60  * 60 * 24 * 7;
 		Intent i = new Intent(getApplicationContext(), PlayerService.class);
 		i.setAction(UPDATE_LISTS);
@@ -81,34 +81,36 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 		alarmManager.setRepeating(AlarmManager.RTC, timeOff.getTimeInMillis(), interval, pid);
 		super.onCreate();
 	}
-	
-	
+
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		String action = intent.getAction();
-		if (action != null && action.equals(UPDATE_LISTS)) {
-			
-			new Thread() {
-				public void run() {
-					int size = musicLists.size();
-					for (int i = 0; i < size; i++) {
-						ArrayList<Song> oldList = musicLists.get(i).getSongList();
-						ArrayList<Song> newList = musicLists.get(i).refreshSongList();
-						if (isSongListEquals(oldList, newList) == false) {
-							Intent intent = new Intent(PlayerService.this, SongListActivity.class);
-							PendingIntent pendingIntent = PendingIntent.getActivity(PlayerService.this, 0, intent, 0);
+		if (intent != null) {
+			String action = intent.getAction();
+			if (action != null && action.equals(UPDATE_LISTS)) {
 
-							Notification notification = new Notification(R.drawable.icon, getString(R.string.app_name), System.currentTimeMillis());
-							notification.setLatestEventInfo(getApplicationContext(), getString(R.string.lists_updated), "", pendingIntent);
+				new Thread() {
+					public void run() {
+						int size = musicLists.size();
+						for (int i = 0; i < size; i++) {
+							ArrayList<Song> oldList = musicLists.get(i).getSongList();
+							ArrayList<Song> newList = musicLists.get(i).refreshSongList();
+							if (isSongListEquals(oldList, newList) == false) {
+								Intent intent = new Intent(PlayerService.this, SongListActivity.class);
+								PendingIntent pendingIntent = PendingIntent.getActivity(PlayerService.this, 0, intent, 0);
 
-							NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-							manager.notify(0, notification);
-							break;
+								Notification notification = new Notification(R.drawable.icon, getString(R.string.app_name), System.currentTimeMillis());
+								notification.setLatestEventInfo(getApplicationContext(), getString(R.string.lists_updated), "", pendingIntent);
+
+								NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+								manager.notify(0, notification);
+								break;
+							}
 						}
-					}
-				};
-			}.start();
-			
+					};
+				}.start();
+
+			}
 		}
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -121,11 +123,11 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 			if(!list1.get(i).equals(list2.get(i)))
 				return false;
 		}
-		
+
 		return true;
 	}
-	
-	
+
+
 	private AbstractMusicList getActiveList() {
 		return this.musicLists.get(activeMusicList);
 	}
@@ -185,8 +187,8 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 
 		startForeground(NOTIFICATION_ID, notification);
 	}
-	
-	
+
+
 
 	public Song getPlayingSong(){
 		Song song = null;
@@ -210,7 +212,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 			mediaPlayer.setOnPreparedListener(this);
 			mediaPlayer.setOnCompletionListener(this);
 
-		//	this.playingSongIndex = songIndex;
+			//	this.playingSongIndex = songIndex;
 			notify(song.singer, song.name, getString(R.string.loading));
 			//send broadcast with playingSongIndex and songName 
 			Intent i = new Intent(PlayerService.PLAYING_SONG_CHANGED);
@@ -256,7 +258,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 					prepareMediaPlayer(songIndex, song);
 				}
 				else {
-					
+
 					Intent i = new Intent(PlayerService.PLAYING_SONG_CHANGED);
 					i.putExtra(SONG_INDEX, songIndex);
 					i.putExtra(LIST_INDEX, activeMusicList);
@@ -265,7 +267,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 					sendBroadcast(i);
 
 					sendBroadcast(new Intent(PlayerService.DOWNLOAD_STARTED));
-					
+
 					downloadThread = new Thread() {
 
 						public void run() {
@@ -311,7 +313,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 	public void stop() {
 		this.playingSongIndex = -1;
 		this.activeMusicList = -1;
-		
+
 		stopForeground(true);
 		mediaPlayerIsActive = false;
 		if (mediaPlayer != null) 

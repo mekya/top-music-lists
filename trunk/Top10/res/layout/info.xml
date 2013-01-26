@@ -19,7 +19,21 @@
             android:text="@string/info"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
+        
         <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/contributors_label"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+         <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dip"
+            android:text="@string/contributors"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+         
+                 <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="3dip"

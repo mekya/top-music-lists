@@ -2,6 +2,7 @@ package com.faraway.top10.fragments;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,16 +32,17 @@ public class SongListFragment extends Fragment {
 	private ProgressBar loadingBar;
 	private ArrayList<Song> fragmentSongList;
 	private PlayerService player;
+	private Thread songFetcher;
 
 	public SongListFragment(){
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(LIST_INDEX, listIndex);
 	}
-	
+
 	public SongListFragment(int index) {
 		listIndex = index;
 	}
@@ -53,9 +55,9 @@ public class SongListFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.main, container, false);
 		lv = (PullToRefreshListView)v.findViewById(R.id.songList);
-		
-		
-		
+
+
+
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> arg0, View arg1,
@@ -64,21 +66,21 @@ public class SongListFragment extends Fragment {
 				if (song.youtubeURL != null){
 					player.stop();
 					startActivity(new Intent(Intent.ACTION_VIEW, 
-				              Uri.parse(song.youtubeURL)));
+							Uri.parse(song.youtubeURL)));
 				}
 				else {
 					player.play(listIndex, position-1);					
 				}
 			}
 		});
-		
+
 		lv.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				
+
 				new Thread() {
 					public void run() {
 						fragmentSongList = player.refreshSongList(listIndex);
-						
+
 						final Song[] songs = new Song[fragmentSongList.size()];
 						for (int i = 0; i < fragmentSongList.size(); i++) {
 							songs[i]  = fragmentSongList.get(i);
@@ -93,9 +95,9 @@ public class SongListFragment extends Fragment {
 
 					};
 				}.start();
-				
-				
-				
+
+
+
 			}
 		});
 		loadingBar = (ProgressBar) v.findViewById(R.id.loading);
@@ -112,34 +114,44 @@ public class SongListFragment extends Fragment {
 			}
 		}
 		player = ((SongListActivity)getActivity()).getPlayer();
-		
-		new Thread(){
-			public void run() {
-				fragmentSongList = player.getSongList(listIndex);
 
-				if (fragmentSongList != null && fragmentSongList.size() >= 0) {
-					final Song[] songs = new Song[fragmentSongList.size()];
-					for (int i = 0; i < fragmentSongList.size(); i++) {
-						songs[i]  = fragmentSongList.get(i);
+		if (songFetcher == null || songFetcher.isAlive() == false) {
+
+			songFetcher = new Thread(){
+				public void run() {
+
+					fragmentSongList = player.getSongList(listIndex);
+
+					if (fragmentSongList != null && fragmentSongList.size() >= 0) {
+						final Song[] songs = new Song[fragmentSongList.size()];
+						for (int i = 0; i < fragmentSongList.size(); i++) {
+							songs[i]  = fragmentSongList.get(i);
+						}
+
+
+						if (getActivity() != null) {
+							getActivity().runOnUiThread(new Runnable() {
+								public void run() {
+									lv.setAdapter(new SongAdapter(getActivity(), listIndex, songs));
+									loadingBar.setVisibility(View.GONE);
+									lv.setVisibility(View.VISIBLE);
+								}
+							});
+						}
 					}
-
-					getActivity().runOnUiThread(new Runnable() {
-						public void run() {
-							lv.setAdapter(new SongAdapter(getActivity(), listIndex, songs));
-							loadingBar.setVisibility(View.GONE);
-							lv.setVisibility(View.VISIBLE);
+					else {
+						if (getActivity()!= null) {
+							getActivity().runOnUiThread(new Runnable() {				
+								public void run() {
+									Toast.makeText(getActivity(), getString(R.string.unable_to_get_list), Toast.LENGTH_LONG).show();
+								}
+							});
 						}
-					});
-				}
-				else {
-					getActivity().runOnUiThread(new Runnable() {				
-						public void run() {
-							Toast.makeText(getActivity(), getString(R.string.unable_to_get_list), Toast.LENGTH_LONG).show();
-						}
-					});
-				}
+					}
+				};
 			};
-		}.start();
+			songFetcher.start();
+		}
 	}
 }
 

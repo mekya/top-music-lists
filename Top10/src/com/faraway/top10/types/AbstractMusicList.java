@@ -186,42 +186,6 @@ public abstract class AbstractMusicList {
 		}
 		
 		return content;
-
-		
-
-//		String content = new String();		
-//		try {
-//			URL url = new URL(urlString);
-//			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//			urlConnection.setReadTimeout(10000);
-//			urlConnection.setConnectTimeout(15000);
-//			urlConnection.setRequestMethod("GET");
-//			urlConnection.setDoInput(true);			
-//			urlConnection.connect();
-//
-//			InputStream in = urlConnection.getInputStream(); //getAssets().open("kralfmtop10.htm");
-//
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(in,Charset.forName("ISO-8859-9")));
-//
-//
-//			String line;
-//			while ((line = reader.readLine()) != null){
-//				content = content.concat(line);
-//			}
-//			//Indirilen html dosyasi parse edilerek icindeki sarkilar bulunuyor.
-//			//songList = parse(content);
-//			in.close();
-//
-//
-//		} catch (MalformedURLException e) {
-//			e.printStackTrace();
-//		} catch (ProtocolException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return content;
 	}
 
 }

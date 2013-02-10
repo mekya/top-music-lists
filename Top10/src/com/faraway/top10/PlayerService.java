@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import com.faraway.top10.lists.BBCRadio1Top10List;
 import com.faraway.top10.lists.KralFMTop10List;
 import com.faraway.top10.lists.PowerHitsTop10;
 import com.faraway.top10.lists.RockFMTop10;
@@ -48,6 +49,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 	public static final String DOWNLOAD_FINISHED = "PlayerService.DOWNLOAD_FINISHED";
 	public static final String SINGER_NAME = "PlayerService.SINGER_NAME";
 	private static final String UPDATE_LISTS = "PlayerService.UPDATE_SONGS";
+	public static final String LIST_NAME = "PlayerService.LIST_NAME";
 
 
 	private ArrayList<AbstractMusicList> musicLists = new ArrayList<AbstractMusicList>();
@@ -61,6 +63,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 	}
 	@Override
 	public void onCreate() {		
+		musicLists.add(new BBCRadio1Top10List(getApplicationContext()));
 		musicLists.add(new PowerHitsTop10(getApplicationContext()));
 		musicLists.add(new RockFMTop10(getApplicationContext()));
 		musicLists.add(new VirginRadioTop10List(getApplicationContext()));
@@ -220,6 +223,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 			i.putExtra(LIST_INDEX, activeMusicList);
 			i.putExtra(SONG_NAME , song.name);
 			i.putExtra(SINGER_NAME, song.singer);
+			i.putExtra(LIST_NAME, getMusicLists().get(activeMusicList).getMusicListName());
 			sendBroadcast(i);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -264,6 +268,7 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 					i.putExtra(LIST_INDEX, activeMusicList);
 					i.putExtra(SONG_NAME , song.name);
 					i.putExtra(SINGER_NAME, song.singer);
+					i.putExtra(LIST_NAME, getMusicLists().get(activeMusicList).getMusicListName());
 					sendBroadcast(i);
 
 					sendBroadcast(new Intent(PlayerService.DOWNLOAD_STARTED));

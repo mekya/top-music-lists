@@ -19,6 +19,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
 
@@ -83,27 +88,9 @@ public abstract class AbstractMusicList {
 	public ArrayList<Song> refreshSongList() {
 		deleteFiles();
 		try {
-			URL url = new URL(getURL());
-			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-			urlConnection.setReadTimeout(10000);
-			urlConnection.setConnectTimeout(15000);
-			urlConnection.setRequestMethod("GET");
-			urlConnection.setDoInput(true);			
-			urlConnection.connect();
-
-			InputStream in = urlConnection.getInputStream(); //getAssets().open("kralfmtop10.htm");
-
-			BufferedReader reader = new BufferedReader(new InputStreamReader(in,Charset.forName("ISO-8859-9")));
-
-			String content = new String();
-			String line;
-			while ((line = reader.readLine()) != null){
-				content = content.concat(line);
-			}
+			String content = getContentFromURL(getURL());
 			//Indirilen html dosyasi parse edilerek icindeki sarkilar bulunuyor.
 			songList = parse(content);
-			in.close();
-
 			writeToFile(songList);
 
 		} catch (FileNotFoundException e) {
@@ -175,40 +162,66 @@ public abstract class AbstractMusicList {
 	public abstract String getMusicListName();
 
 	protected String getContentFromURL(String urlString) {
+		
 		String content = new String();
-
 		try {
-			URL url = new URL(urlString);
-			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-			urlConnection.setReadTimeout(10000);
-			urlConnection.setConnectTimeout(15000);
-			urlConnection.setRequestMethod("GET");
-			urlConnection.setDoInput(true);			
-			urlConnection.connect();
-
-			InputStream in = urlConnection.getInputStream(); //getAssets().open("kralfmtop10.htm");
-
-			BufferedReader reader = new BufferedReader(new InputStreamReader(in,Charset.forName("ISO-8859-9")));
-
-
-			String line;
-			while ((line = reader.readLine()) != null){
-				content = content.concat(line);
-			}
-			//Indirilen html dosyasi parse edilerek icindeki sarkilar bulunuyor.
-			//songList = parse(content);
-			in.close();
-
-
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (ProtocolException e) {
+			HttpClient client = new DefaultHttpClient();
+			HttpGet request = new HttpGet(urlString);
+			HttpResponse response;
+			response = client.execute(request);
+			// Get the response
+			BufferedReader rd = new BufferedReader
+			  (new InputStreamReader(response.getEntity().getContent(), Charset.forName("ISO-8859-9")));
+			    
+			String line = "";
+			
+			while ((line = rd.readLine()) != null) {
+			  content += line;
+			} 			
+			rd.close();
+		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 		return content;
+
+		
+
+//		String content = new String();		
+//		try {
+//			URL url = new URL(urlString);
+//			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//			urlConnection.setReadTimeout(10000);
+//			urlConnection.setConnectTimeout(15000);
+//			urlConnection.setRequestMethod("GET");
+//			urlConnection.setDoInput(true);			
+//			urlConnection.connect();
+//
+//			InputStream in = urlConnection.getInputStream(); //getAssets().open("kralfmtop10.htm");
+//
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(in,Charset.forName("ISO-8859-9")));
+//
+//
+//			String line;
+//			while ((line = reader.readLine()) != null){
+//				content = content.concat(line);
+//			}
+//			//Indirilen html dosyasi parse edilerek icindeki sarkilar bulunuyor.
+//			//songList = parse(content);
+//			in.close();
+//
+//
+//		} catch (MalformedURLException e) {
+//			e.printStackTrace();
+//		} catch (ProtocolException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return content;
 	}
 
 }

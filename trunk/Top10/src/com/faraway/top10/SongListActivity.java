@@ -84,6 +84,7 @@ public class SongListActivity extends SherlockFragmentActivity{
 					int songIndex = intent.getExtras().getInt(PlayerService.SONG_INDEX);
 					if (songIndex == -1){
 						playMenuItem.setIcon(android.R.drawable.ic_media_play);
+						getSupportActionBar().setTitle(getString(R.string.app_name));
 						getSupportActionBar().setSubtitle(null);
 
 					}
@@ -91,7 +92,9 @@ public class SongListActivity extends SherlockFragmentActivity{
 						playMenuItem.setIcon(android.R.drawable.ic_media_pause);
 						String songName = intent.getExtras().getString(PlayerService.SONG_NAME);
 						String singer = intent.getExtras().getString(PlayerService.SINGER_NAME);
+						String listName = intent.getExtras().getString(PlayerService.LIST_NAME);
 						songIndex++;
+						getSupportActionBar().setTitle(getString(R.string.app_name) + "-" + listName);
 						getSupportActionBar().setSubtitle(songIndex + "." + songName + "-" + singer);
 
 					}
@@ -198,6 +201,7 @@ public class SongListActivity extends SherlockFragmentActivity{
 				setSupportProgressBarIndeterminateVisibility(false);
 				item.setIcon(android.R.drawable.ic_media_play);
 				getSupportActionBar().setSubtitle(null);
+				getSupportActionBar().setTitle(getString(R.string.app_name));
 			}
 			else {
 				playList();

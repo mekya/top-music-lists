@@ -8,7 +8,9 @@ public class Song implements Serializable{
 	public String name;
 	public String singer;
 	public String mp3Url;
-	public String fileFullPath;
+	public String mp4Url;
+      
+    public String fileFullPath;
 	public String youtubeURL;
 	
 	@Override

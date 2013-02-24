@@ -68,6 +68,11 @@ public class SongListFragment extends Fragment {
 					startActivity(new Intent(Intent.ACTION_VIEW, 
 							Uri.parse(song.youtubeURL)));
 				}
+				else if (song.mp4Url != null) {
+					player.stop();
+					startActivity(new Intent(Intent.ACTION_VIEW, 
+							Uri.parse(song.mp4Url)));
+				}
 				else {
 					player.play(listIndex, position-1);					
 				}

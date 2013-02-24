@@ -164,6 +164,10 @@ public class SongListActivity extends SherlockFragmentActivity{
 			startActivity(new Intent(Intent.ACTION_VIEW, 
 					Uri.parse(youtubeURL)));
 		}
+		else if (list.get(0).mp4Url != null) {
+			startActivity(new Intent(Intent.ACTION_VIEW, 
+					Uri.parse(list.get(0).mp4Url)));
+		}
 		else {
 			player.play(viewPager.getCurrentItem(), 0);					
 		}

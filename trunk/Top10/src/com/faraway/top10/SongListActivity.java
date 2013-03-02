@@ -13,6 +13,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -23,6 +24,7 @@ import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -116,9 +118,7 @@ public class SongListActivity extends SherlockFragmentActivity{
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-		Intent intent = new Intent(this, PlayerService.class);
-		startService(intent);
-		bindService(intent, serviceConnection, Context.BIND_IMPORTANT);
+		
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(PlayerService.PLAYING_SONG_CHANGED);
@@ -126,6 +126,23 @@ public class SongListActivity extends SherlockFragmentActivity{
 		filter.addAction(PlayerService.DOWNLOAD_STARTED);
 		filter.addAction(PlayerService.DOWNLOAD_FINISHED);
 		registerReceiver(songStatusReceiver, filter);
+		
+		
+		ConnectivityManager manager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+		
+		if (manager.getActiveNetworkInfo().isConnected() == false){
+			Toast.makeText(this, getString(R.string.connectNetwork), Toast.LENGTH_SHORT).show();
+			
+		}
+		
+	}
+	
+	@Override
+	protected void onStart() {
+		Intent intent = new Intent(this, PlayerService.class);
+		startService(intent);
+		bindService(intent, serviceConnection, Context.BIND_IMPORTANT);
+		super.onStart();
 	}
 
 
@@ -137,6 +154,9 @@ public class SongListActivity extends SherlockFragmentActivity{
 	protected void onDestroy() {
 		unregisterReceiver(songStatusReceiver);
 		unbindService(serviceConnection);
+		if (player.isPlaying() == false) {
+			stopService(new Intent(this, PlayerService.class));
+		}
 		super.onDestroy();
 	}
 
@@ -184,7 +204,6 @@ public class SongListActivity extends SherlockFragmentActivity{
 		else {
 			playMenuItem.setIcon(android.R.drawable.ic_media_play);
 		}
-
 
 		playMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
@@ -234,8 +253,6 @@ public class SongListActivity extends SherlockFragmentActivity{
 	public PlayerService getPlayer(){
 		return player;
 	}
-
-
 
 
 	public class ViewPagerAdapter extends FragmentStatePagerAdapter 

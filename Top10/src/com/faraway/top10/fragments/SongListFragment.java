@@ -119,38 +119,48 @@ public class SongListFragment extends Fragment {
 			}
 		}
 		player = ((SongListActivity)getActivity()).getPlayer();
+		if (player == null) {
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			player = ((SongListActivity)getActivity()).getPlayer();
+		}
 
 		if (songFetcher == null || songFetcher.isAlive() == false) {
 
 			songFetcher = new Thread(){
 				public void run() {
 
-					fragmentSongList = player.getSongList(listIndex);
+					if (player != null) {
+						fragmentSongList = player.getSongList(listIndex);
 
-					if (fragmentSongList != null && fragmentSongList.size() >= 0) {
-						final Song[] songs = new Song[fragmentSongList.size()];
-						for (int i = 0; i < fragmentSongList.size(); i++) {
-							songs[i]  = fragmentSongList.get(i);
+						if (fragmentSongList != null && fragmentSongList.size() >= 0) {
+							final Song[] songs = new Song[fragmentSongList.size()];
+							for (int i = 0; i < fragmentSongList.size(); i++) {
+								songs[i]  = fragmentSongList.get(i);
+							}
+
+
+							if (getActivity() != null) {
+								getActivity().runOnUiThread(new Runnable() {
+									public void run() {
+										lv.setAdapter(new SongAdapter(getActivity(), listIndex, songs));
+										loadingBar.setVisibility(View.GONE);
+										lv.setVisibility(View.VISIBLE);
+									}
+								});
+							}
 						}
-
-
-						if (getActivity() != null) {
-							getActivity().runOnUiThread(new Runnable() {
-								public void run() {
-									lv.setAdapter(new SongAdapter(getActivity(), listIndex, songs));
-									loadingBar.setVisibility(View.GONE);
-									lv.setVisibility(View.VISIBLE);
-								}
-							});
-						}
-					}
-					else {
-						if (getActivity()!= null) {
-							getActivity().runOnUiThread(new Runnable() {				
-								public void run() {
-									Toast.makeText(getActivity(), getString(R.string.unable_to_get_list), Toast.LENGTH_LONG).show();
-								}
-							});
+						else {
+							if (getActivity()!= null) {
+								getActivity().runOnUiThread(new Runnable() {				
+									public void run() {
+										Toast.makeText(getActivity(), getString(R.string.unable_to_get_list), Toast.LENGTH_LONG).show();
+									}
+								});
+							}
 						}
 					}
 				};

@@ -23,14 +23,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
-import com.faraway.top10.adapters.SongAdapter;
+import com.bugsense.trace.BugSenseHandler;
 import com.faraway.top10.fragments.SongListFragment;
 import com.faraway.top10.types.Song;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -112,6 +111,7 @@ public class SongListActivity extends SherlockFragmentActivity{
 		setTheme(com.actionbarsherlock.R.style.Sherlock___Theme_DarkActionBar);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
+		BugSenseHandler.initAndStartSession(this, "ad01e76a");
 		setContentView(R.layout.viewpager);
 		setSupportProgressBarIndeterminateVisibility(false);
 

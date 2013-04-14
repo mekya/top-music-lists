@@ -48,54 +48,59 @@ public class KralPopTop10List extends AbstractMusicList {
 	 */
 	public ArrayList<Song> parse(String html) {
 		ArrayList<Song> songList = new ArrayList<Song>();
-		Document doc = Jsoup.parse(html);
-		Elements elements = doc.getElementById("chartt_archieve_list")
-				.getElementsByClass("noktanokta");
+		try {
+			Document doc = Jsoup.parse(html);
+			Elements elements = doc.getElementById("chartt_archieve_list")
+					.getElementsByClass("noktanokta");
 
-		for (int i = 0; i < 10; i++) {
-			Song song = new Song();
-			try {
-				Element name = elements.get(i).child(1);
-				String src = elements.get(i).child(5)
-						.getElementsByClass("mtn2").get(0).attributes()
-						.get("onclick");
+			for (int i = 0; i < 10; i++) {
+				Song song = new Song();
+				try {
+					Element name = elements.get(i).child(1);
+					String src = elements.get(i).child(5)
+							.getElementsByClass("mtn2").get(0).attributes()
+							.get("onclick");
 
-				int fileStartIndex = src.indexOf("'") + 1;
-				int fileEndIndex = src.lastIndexOf("'");
+					int fileStartIndex = src.indexOf("'") + 1;
+					int fileEndIndex = src.lastIndexOf("'");
 
-				String url = null;
-				if (fileEndIndex > fileStartIndex) {
-					url = src.substring(fileStartIndex, fileEndIndex);
+					String url = null;
+					if (fileEndIndex > fileStartIndex) {
+						url = src.substring(fileStartIndex, fileEndIndex);
+					}
+
+					String mixedData = name.html();
+					// StringEscapeUtils.unescapeHtml fonksiyonu turkce karakter
+					// problemini cozmek icin kullanildi.
+					// Her zaman gerekmeyebilir.
+					song.singer = getCapitilize(
+							StringEscapeUtils.unescapeHtml(mixedData.substring(0,
+									mixedData.indexOf("<br />"))), new Locale(
+											"TR_tr"));
+					song.name = getCapitilize(
+							StringEscapeUtils.unescapeHtml(mixedData.substring(
+									mixedData.indexOf("<b>") + "<b>".length(),
+									mixedData.indexOf("</b>"))),
+									new Locale("TR_tr"));
+					song.mp4Url = null;
+					if (url != null) {
+						song.mp4Url = videoPrefix + url;
+					}
+
+					song.fileFullPath = context.getFilesDir()
+							+ "/"
+							+ new String(LIST_NAME + song.singer + song.name
+									+ ".mp4").replaceAll("\\s", "");
+
+					songList.add(song);
+				} catch (Exception e) {
+					Log.e(getClass().getName(), "Problem in parsing element " + i
+							+ " isim: " + song.name);
 				}
-
-				String mixedData = name.html();
-				// StringEscapeUtils.unescapeHtml fonksiyonu turkce karakter
-				// problemini cozmek icin kullanildi.
-				// Her zaman gerekmeyebilir.
-				song.singer = getCapitilize(
-						StringEscapeUtils.unescapeHtml(mixedData.substring(0,
-								mixedData.indexOf("<br />"))), new Locale(
-								"TR_tr"));
-				song.name = getCapitilize(
-						StringEscapeUtils.unescapeHtml(mixedData.substring(
-								mixedData.indexOf("<b>") + "<b>".length(),
-								mixedData.indexOf("</b>"))),
-						new Locale("TR_tr"));
-				song.mp4Url = null;
-				if (url != null) {
-					song.mp4Url = videoPrefix + url;
-				}
-
-				song.fileFullPath = context.getFilesDir()
-						+ "/"
-						+ new String(LIST_NAME + song.singer + song.name
-								+ ".mp4").replaceAll("\\s", "");
-
-				songList.add(song);
-			} catch (Exception e) {
-				Log.e(getClass().getName(), "Problem in parsing element " + i
-						+ " isim: " + song.name);
 			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return songList;

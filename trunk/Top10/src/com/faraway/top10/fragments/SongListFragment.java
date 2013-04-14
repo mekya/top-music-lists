@@ -2,10 +2,13 @@ package com.faraway.top10.fragments;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +37,23 @@ public class SongListFragment extends Fragment {
 	private PlayerService player;
 	private Thread songFetcher;
 
+
+	/**
+	 * Service connection
+	 */
+	private ServiceConnection serviceConnection = new ServiceConnection() {
+
+		public void onServiceDisconnected(ComponentName name) {
+			player = null;
+		}
+
+		public void onServiceConnected(ComponentName name, IBinder service) 
+		{
+			player = (PlayerService)((PlayerService.PSBinder)service).getService();
+			fetchSongs();
+		}
+	};
+
 	public SongListFragment(){
 	}
 
@@ -53,6 +73,8 @@ public class SongListFragment extends Fragment {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		System.out.println("SongListFragment.onCreateView()");
+
 		View v = inflater.inflate(R.layout.main, container, false);
 		lv = (PullToRefreshListView)v.findViewById(R.id.songList);
 
@@ -112,22 +134,30 @@ public class SongListFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		System.out.println("SongListFragment.onActivityCreated()");
 		if (savedInstanceState != null && this.listIndex == -1) {
 			if (savedInstanceState.containsKey(LIST_INDEX)) {
 				listIndex = savedInstanceState.getInt(LIST_INDEX);
 			}
 		}
-		player = ((SongListActivity)getActivity()).getPlayer();
-		if (player == null) {
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			player = ((SongListActivity)getActivity()).getPlayer();
-		}
+		Intent intent = new Intent(getActivity(), PlayerService.class);
+		getActivity().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		try {
+			getActivity().unbindService(serviceConnection);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	private void fetchSongs()
+	{
 		if (songFetcher == null || songFetcher.isAlive() == false) {
 
 			songFetcher = new Thread(){

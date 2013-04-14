@@ -2,8 +2,6 @@ package com.faraway.top10.types;
 
 import java.io.Serializable;
 
-import com.handmark.pulltorefresh.library.R.string;
-
 public class Song implements Serializable{
 	public String name;
 	public String singer;

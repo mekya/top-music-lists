@@ -40,15 +40,17 @@ public class PowerHitsTop10 extends AbstractMusicList {
 	@Override
 	protected ArrayList<Song> parse(String content) {
 		ArrayList<Song> songList = new ArrayList<Song>();
-		Document doc = Jsoup.parse(content);
+		try {
+			
+			Document doc = Jsoup.parse(content);
 
-		//block equi block-1 top-60
-		Element listElements = doc.getElementsByClass("block-content").get(0);
+			//block equi block-1 top-60
+			Element listElements = doc.getElementsByClass("block-content").get(0);
 
-		Elements info = listElements.getElementsByClass("info");
-		Elements mp3List = listElements.getElementsByClass("play");
+			Elements info = listElements.getElementsByClass("info");
+			Elements mp3List = listElements.getElementsByClass("play");
 
-		for (int i = 0; i < info.size(); i++) {
+			for (int i = 0; i < info.size(); i++) {
 				Song song = new Song();
 				song.singer = info.get(i).getElementsByClass("name").get(0).text();
 				song.singer = getCapitilize(song.singer, Locale.ENGLISH);
@@ -64,11 +66,15 @@ public class PowerHitsTop10 extends AbstractMusicList {
 				songList.add(song);			
 
 
+			}
+		}
+		catch (Exception e) {
+
 		}
 		return songList;	
 	}
 
-	
+
 
 	@Override
 	public String getURL() {

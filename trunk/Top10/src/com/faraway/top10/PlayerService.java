@@ -68,11 +68,11 @@ public class PlayerService extends Service implements OnCompletionListener, OnPr
 		
 		musicLists.add(new KralPopTop10List(getApplicationContext()));
 		musicLists.add(new BBCRadio1Top10List(getApplicationContext()));
-		musicLists.add(new PowerHitsTop10(getApplicationContext()));
+//		musicLists.add(new PowerHitsTop10(getApplicationContext()));
 		musicLists.add(new RockFMTop10(getApplicationContext()));
 		musicLists.add(new VirginRadioTop10List(getApplicationContext()));
 		musicLists.add(new KralFMTop10List(getApplicationContext()));
-		musicLists.add(new DreamTvTop10List(getApplicationContext()));
+//		musicLists.add(new DreamTvTop10List(getApplicationContext()));
 
 		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		Calendar timeOff = Calendar.getInstance();
